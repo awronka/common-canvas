@@ -6,10 +6,11 @@
   "scripts": {
     "test": "echo \"Tests should be run from `gulp`. Please see `gulpfile.js` for available testing tasks.\" && exit 1",
     "start": "nodemon --watch server server/start.js",
-    "postinstall": "gulp default"
+    "postinstall": "gulp build"
   },
   "engines": {
-    "node":"0.12.2"
+    "node":"0.12.x",
+    "npm": "2.1.x"
   },    
   "dependencies": {
     "angular": "^1.4.1",
