@@ -1,0 +1,19 @@
+{
+  "name": "common-canvas",
+  "version": "0.0.0",
+  "homepage": "https://github.com/EduardoSuarez21/casebase",
+  "authors": [
+    "Galen Weber <galenweber@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-socket-io": "~0.7.0"
+  }
+}
