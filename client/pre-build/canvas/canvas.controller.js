@@ -51,17 +51,23 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket) {
     }
   }, false);
 
+  canvas.addEventListener("touchstart", function(evt) {
+    context.beginPath();
+  });
+
   canvas.addEventListener("touchmove", function(evt) {
     // first, draw on your own canvas
+    console.log("registering touch");
+    evt.preventDefault();
     context.strokeStyle = $scope.brushColor;
     context.shadowColor = $scope.brushColor;
-    context.lineTo(evt.layerX+1,evt.layerY+1);
+    context.lineTo(evt.changedTouches[0].pageX,evt.changedTouches[0].pageY);
     context.stroke();
 
     // Now emit the drawing to everyone else
     socket.emit('draw',{
-      x: (evt.layerX + 1),
-      y: (evt.layerY + 1),
+      x: evt.changedTouches[0].pageX,
+      y: evt.changedTouches[0].pageY,
       color: $scope.brushColor,
       userID: userID
     });
