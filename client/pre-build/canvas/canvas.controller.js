@@ -1,16 +1,25 @@
-app.controller('CanvasController', function($scope, CanvasFactory, socket) {
+app.controller('CanvasController', function($scope, CanvasFactory, socket, $timeout) {
 
   var canvas = CanvasFactory.generateCanvas(2000,1000);
   var context = canvas.getContext("2d");
   var mouseDown = false;
   $scope.brushColor = "#000000";
+  $scope.brushSize = 50;
   var userID = 0;
   var usersObject = {};
 
   // Initialize the basic context variables
-  context.lineWidth = 10;
+  context.lineWidth = ($scope.brushSize/2)+1;
   context.shadowBlur = 2;
   context.lineJoin = context.lineCap = "round";
+
+
+  // HANDLE THE BRUSH CIRCLE
+  $scope.openColorPicker = function() {
+    console.log("you've clicked the color picker!");
+    var picker = document.getElementById("color-picker-element");
+    picker.click();
+  };
 
 
   // Detect mousedown
@@ -38,6 +47,7 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket) {
       // first, draw on your own canvas
       context.strokeStyle = $scope.brushColor;
       context.shadowColor = $scope.brushColor;
+      context.lineWidth = ($scope.brushSize/2)+1;
       context.lineTo(evt.layerX+1,evt.layerY+1);
       context.stroke();
 
@@ -46,6 +56,7 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket) {
         x: (evt.layerX + 1),
         y: (evt.layerY + 1),
         color: $scope.brushColor,
+        lineWidth: ($scope.brushSize/2)+1,
         userID: userID
       });
     }
@@ -61,6 +72,7 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket) {
     evt.preventDefault();
     context.strokeStyle = $scope.brushColor;
     context.shadowColor = $scope.brushColor;
+    context.lineWidth = ($scope.brushSize/2)+1;
     context.lineTo(evt.changedTouches[0].pageX,evt.changedTouches[0].pageY);
     context.stroke();
 
@@ -69,6 +81,7 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket) {
       x: evt.changedTouches[0].pageX,
       y: evt.changedTouches[0].pageY,
       color: $scope.brushColor,
+      lineWidth: ($scope.brushSize/2)+1,
       userID: userID
     });
   });
@@ -76,6 +89,7 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket) {
   socket.on('newLine', function(data) {
     context.strokeStyle = data.color;
     context.shadowColor = data.color;
+    context.lineWidth = data.lineWidth;
     context.shadowBlur = 2;
     context.lineJoin = context.lineCap = "round";
     context.beginPath();

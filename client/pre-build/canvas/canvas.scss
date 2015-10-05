@@ -1,10 +1,30 @@
 #canvas {
-  .color-picker {
+
+  .options-bar {
     position: fixed;
-    top: 90%;
+    top: 80%;
     margin-left: 40%;
+  }
+
+  .color-picker-background {
+    background-color: lightgray;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+  }
+
+  .picker-container {
     width: 50px;
     height: 50px;
-
   }
+
+
+}
+
+.color-picker {
+  left: -1000px;
+  width: 0px;
+  height: 0px;
+  border: 0;
+  margin: 0;
 }
