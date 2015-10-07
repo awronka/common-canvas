@@ -11,13 +11,43 @@
     border-radius: 50%;
     width: 100px;
     height: 100px;
+    position: absolute;
   }
 
   .picker-container {
     width: 50px;
     height: 50px;
+    vertical-align: middle;
   }
 
+  .size-picker {
+    position: absolute;
+  }
+
+  input[type=range] {
+    -webkit-appearance: none;
+    width: 100px;
+    margin-top: 5px;
+    border-radius: 8px;
+    height: 8px;
+    border: 1px solid #bdc3c7;
+    background-color: #fff;
+
+      &:focus {
+        outline: none;
+      }
+
+  }
+
+  input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background-color: #ecf0f1;
+    border: 1px solid #bdc3c7;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
 
 }
 

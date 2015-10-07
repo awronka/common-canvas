@@ -1,10 +1,10 @@
 <section id="canvas">
   <div class="options-bar">
     <div class="picker-container">
-      <div class="color-picker-background" ng-style="{'width':(brushSize/2+3), 'height':(brushSize/2+3), 'background-color':brushColor}" ng-click="openColorPicker()">
+      <div class="color-picker-background" ng-style="{'width':(brushSize/2+3), 'height':(brushSize/2+3), 'background-color':brushColor, 'margin-top':(50-(brushSize/2+3))}" ng-click="openColorPicker()">
       </div>
     </div>
-    <input type="range"  ng-model="brushSize" class="size-picker">
+    <input type="range" id="slider" ng-model="brushSize" class="size-picker">
   </div>
 </section>
 <input type="color" id="color-picker-element" ng-model="brushColor" class="color-picker">

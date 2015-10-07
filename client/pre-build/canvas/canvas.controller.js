@@ -32,6 +32,7 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket, $time
 
   socket.on('userID', function(data) {
     userID = data.userID;
+    usersObject[$scope.userID] = {xArray: [], yArray:[]};
     console.log("userId is: ", userID);
   });
 
@@ -39,6 +40,7 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket, $time
   canvas.addEventListener("mouseup", function(evt) {
     mouseDown = false;
     socket.emit('mouseUp',{userID: userID});
+    usersObject[$scope.userID] = {xArray: [], yArray:[]};
   }, false);
 
   // Draw, if mouse button is pressed
@@ -48,8 +50,14 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket, $time
       context.strokeStyle = $scope.brushColor;
       context.shadowColor = $scope.brushColor;
       context.lineWidth = ($scope.brushSize/2)+1;
-      context.lineTo(evt.layerX+1,evt.layerY+1);
-      context.stroke();
+      var user = usersObject[$scope.userID];
+      user.xArray.push(evt.layerX+1);
+      user.yArray.push(evt.layerY+1);
+      if (user.xArray.length > 1) {
+        context.moveTo(user.xArray[user.xArray.length -2],user.yArray[user.yArray.length -2]);
+        context.lineTo(user.xArray[user.xArray.length-1],user.yArray[user.yArray.length-1]);
+        context.stroke();
+      }
 
       // Now emit the drawing to everyone else
       socket.emit('draw',{
@@ -121,5 +129,8 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket, $time
 
   var parent = document.getElementById("canvas");
   parent.appendChild(canvas);
+
+  var slider = angular.element('#slider');
+  console.log(slider);
 
 });
