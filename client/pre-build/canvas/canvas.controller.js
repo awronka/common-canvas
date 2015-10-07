@@ -74,6 +74,11 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket, $time
     context.beginPath();
   });
 
+  canvas.addEventListener("touchend", function(evt) {
+    socket.emit('mouseUp',{userID: userID});
+    usersObject[$scope.userID] = {xArray: [], yArray:[]};
+  });
+
   canvas.addEventListener("touchmove", function(evt) {
     // first, draw on your own canvas
     console.log("registering touch");
