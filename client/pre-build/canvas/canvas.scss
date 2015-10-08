@@ -49,6 +49,42 @@
     cursor: pointer;
   }
 
+  @media only screen and (max-device-width: 1000px) {
+    /* define mobile specific styles come here */
+
+    .options-bar {
+      position: fixed;
+      top: 80%;
+      margin-left: 30%;
+    }
+
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 150px;
+      margin-top: 5px;
+      border-radius: 8px;
+      height: 20px;
+      border: 1px solid #bdc3c7;
+      background-color: #fff;
+
+      &:focus {
+        outline: none;
+      }
+
+    }
+
+    input[type='range']::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      background-color: #ecf0f1;
+      border: 1px solid #bdc3c7;
+      width: 40px;
+      height: 40px;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+
+  }
+
 }
 
 .color-picker {
