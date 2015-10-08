@@ -1,6 +1,6 @@
-app.controller('CanvasController', function($scope, CanvasFactory, socket, $timeout) {
+app.controller('CanvasController', function($scope, CanvasFactory, socket) {
 
-  var canvas = CanvasFactory.generateCanvas(2000,1000);
+  var canvas = CanvasFactory.generateCanvas(window.innerWidth,window.innerHeight);
   var context = canvas.getContext("2d");
   var mouseDown = false;
   $scope.brushColor = "#000000";
