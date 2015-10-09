@@ -1,6 +1,6 @@
 app.controller('CanvasController', function($scope, CanvasFactory, socket) {
-
-  var canvas = CanvasFactory.generateCanvas(window.innerWidth,window.innerHeight);
+  var canvasWindow = document.getElementById("canvas-window");
+  var canvas = CanvasFactory.generateCanvas(canvasWindow.clientWidth,canvasWindow.clientHeight);
   var context = canvas.getContext("2d");
   var mouseDown = false;
   $scope.brushColor = "#000000";
@@ -132,7 +132,7 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket) {
     }
   });
 
-  var parent = document.getElementById("canvas");
+  var parent = document.getElementById("canvas-window");
   parent.appendChild(canvas);
 
   var slider = angular.element('#slider');
