@@ -16,6 +16,7 @@ app.factory('CanvasFactory', function() {
     return {
         generateCanvas: function(width, height) {
             var canvas = document.createElement("canvas");
+            canvas.setAttribute("class", "screen-canvas");
             canvas.width = width * PIXEL_RATIO;
             canvas.height = height * PIXEL_RATIO;
             canvas.style.width = width + "px";

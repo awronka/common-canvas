@@ -2,8 +2,8 @@ var Promise = require('bluebird');
 var chalk = require('chalk');
 var dbName = "meaniscule-app";
 
-//var DATABASE_URI = "mongodb://localhost:27017/" + dbName;
-var DATABASE_URI = process.env.MONGOLAB_URI;
+var DATABASE_URI = "mongodb://localhost:27017/" + dbName;
+// var DATABASE_URI = process.env.MONGOLAB_URI;
 
 var mongoose = require('mongoose');
 var db = mongoose.connect(DATABASE_URI).connection;

@@ -1,6 +1,20 @@
 #canvas {
-
+ display: flex;
+ flex-direction: column;
+ align-content: center;
+ 
+  .canvas-attr{
+    margin: auto;
+    height: 600px;
+    width: 1200px;
+    border: 2px solid black;
+    border-radius: 10px;
+    float: left;
+  }
+  
   .options-bar {
+    float: left;
+    height: 200px;
     position: fixed;
     top: 80%;
     margin-left: 40%;
@@ -94,3 +108,5 @@
   border: 0;
   margin: 0;
 }
+
+
