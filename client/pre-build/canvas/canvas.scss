@@ -3,7 +3,7 @@
   .options-bar {
     position: fixed;
     top: 80%;
-    margin-left: 40%;
+    left: 45%;
   }
 
   .color-picker-background {
@@ -14,8 +14,16 @@
     position: absolute;
   }
 
+  .form-inline {
+    margin-top: 30px;
+  }
+  
+  .form-control {
+    width: 128px;
+  }
+
   .picker-container {
-    width: 50px;
+    width: 100px;
     height: 50px;
     vertical-align: middle;
   }
@@ -26,7 +34,7 @@
 
   input[type=range] {
     -webkit-appearance: none;
-    width: 100px;
+    width: 100%;
     margin-top: 5px;
     border-radius: 8px;
     height: 10px;

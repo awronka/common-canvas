@@ -5,6 +5,7 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket) {
   var mouseDown = false;
   $scope.brushColor = "#000000";
   $scope.brushSize = 50;
+  $scope.showOptions = false;
   var userID = 0;
   var usersObject = {};
 
