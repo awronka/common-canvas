@@ -39,6 +39,9 @@ app.factory('CanvasFactory', function() {
                 var dy = point2.y - point1.y;
                 return Math.atan2(dx, dy);
             }
+        },
+        clear: function(context, canvas){
+            context.clearRect(0, 0, canvas.width, canvas.height)
         }
     };
 });

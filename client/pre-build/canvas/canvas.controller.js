@@ -172,5 +172,10 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket, $http
 
   var slider = angular.element('#slider');
   console.log(slider);
+  
+  //clears the canvas
+  $scope.clearCanvas = function(){
+    CanvasFactory.clear(context, canvas)
+  }
 
 });
