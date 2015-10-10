@@ -79,15 +79,8 @@ app.use(function(err, req, res, next) {
 
 });
 
-var userCount = 0;
 
 io.on('connection', function(socket){
-
-  // Register new users with an id Number
-  socket.on('newUser', function(data) {
-    socket.emit('userID',{userID: userCount});
-    userCount += 1;
-  });
 
   // Recieve notification of drawn line
   socket.on('draw', function(data) {
