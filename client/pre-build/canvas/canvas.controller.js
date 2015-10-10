@@ -1,4 +1,4 @@
-app.controller('CanvasController', function($scope, CanvasFactory, socket) {
+app.controller('CanvasController', function($scope, CanvasFactory, socket, $http) {
 
   var canvas = CanvasFactory.generateCanvas(window.innerWidth,window.innerHeight);
   var context = canvas.getContext("2d");
@@ -17,7 +17,6 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket) {
 
   // HANDLE THE BRUSH CIRCLE
   $scope.openColorPicker = function() {
-    console.log("you've clicked the color picker!");
     var picker = document.getElementById("color-picker-element");
     picker.click();
   };
@@ -47,10 +46,16 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket) {
 
   socket.emit('newUser',{});
 
-  socket.on('userID', function(data) {
-    userID = data.userID;
+  $http({
+    method: 'GET',
+    url: 'api/modules'
+  }).then(function successCallback(response) {
+    userID = response.data.userID;
     usersObject[$scope.userID] = {xArray: [], yArray:[]};
     console.log("userId is: ", userID);
+  }, function errorCallback(response) {
+    // called asynchronously if an error occurs
+    // or server returns response with an error status.
   });
 
   // Detect mouseup
@@ -62,6 +67,7 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket) {
 
   // Draw, if mouse button is pressed
   canvas.addEventListener("mousemove", function(evt) {
+    console.log("is mousemove triggering?");
     if (mouseDown) {
       // first, draw on your own canvas
       context.strokeStyle = $scope.brushColor;
@@ -117,6 +123,7 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket) {
   });
 
   socket.on('newLine', function(data) {
+    console.log("in newLine");
     context.strokeStyle = data.color;
     context.shadowColor = data.color;
     context.lineWidth = data.lineWidth;
