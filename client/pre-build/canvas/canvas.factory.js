@@ -42,6 +42,15 @@ app.factory('CanvasFactory', function() {
         },
         clear: function(context, canvas){
             context.clearRect(0, 0, canvas.width, canvas.height)
+        },
+        drawCanvasOffSentImage: function(context, canvas, data){
+            if (!data) return;
+            var image = new Image();
+            image.src = data;
+            image.onload = function() {
+
+                context.drawImage(image, 0, 0, canvas.width, canvas.height);
+            };
         }
     };
 });

@@ -94,7 +94,15 @@ io.on('connection', function(socket){
   
   socket.on('delete canvas', function(){
     socket.broadcast.emit('clear canvas');
-  })
+  });
+  
+  socket.on('user created need image', function(){
+    socket.broadcast.emit('get the current image');
+  });
+  
+  socket.on('current image to new user', function(data){
+    socket.broadcast.emit('image to start', data);
+  });
 
 
 });
