@@ -10,8 +10,8 @@
     position:   fixed; 
     // margin: auto;
     border-radius: 10px;
-    height: 600px;
-    width: 1200px;
+    height: 100%;
+    width: 100%;
     float: left;
   }
   
@@ -39,18 +39,37 @@
           vertical-align: middle;
           line-height: 90px; 
           z-index:    10; 
-          .title-box{
-            height: 100px;
-            .title{
-              color: ghostwhite;
-              font-size: 500%;
-              text-shadow: 2px 2px darkblue;
-              font-weight: bold;
-            }
+          @media(min-width: 600px){
+                    .title-box{
+                      height: 100px;
+                      .title{
+                        color: ghostwhite;
+                        font-size: 500%;
+                        text-shadow: 2px 2px darkblue;
+                        font-weight: bold;
+                      }
+                    }
+                    .sub-title-box{
+                      height: 100px;
+                    }
           }
-          .sub-title-box{
-            height: 100px;
-          }
+          @media(max-width: 600px){
+              .title-box{
+                height: 50px;
+                    .title{
+                      color: ghostwhite;
+                      font-size: 400%;
+                      text-shadow: 2px 2px darkblue;
+                      font-weight: bold;
+                      position: static;
+                      float: left;
+                    }
+              }
+              .sub-title-box{
+                height: 50px;
+                position: static;
+              }
+           }
         }
       }
   }
