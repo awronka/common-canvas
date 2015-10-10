@@ -3,5 +3,5 @@ app.config(function($stateProvider) {
         url: '/',
         templateUrl: '/pre-build/canvas/canvas.html',
         controller: 'CanvasController'
-    });
+    })
 });
