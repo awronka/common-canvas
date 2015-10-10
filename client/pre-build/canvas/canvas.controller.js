@@ -1,10 +1,12 @@
-app.controller('CanvasController', function($scope, CanvasFactory, socket) {
+
+app.controller('CanvasController', function($scope, CanvasFactory, socket, $http) {
   var canvasWindow = document.getElementById("canvas-window");
   var canvas = CanvasFactory.generateCanvas(canvasWindow.clientWidth,canvasWindow.clientHeight);
   var context = canvas.getContext("2d");
   var mouseDown = false;
   $scope.brushColor = "#000000";
   $scope.brushSize = 50;
+  $scope.showOptions = false;
   var userID = 0;
   var usersObject = {};
 
@@ -16,7 +18,6 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket) {
 
   // HANDLE THE BRUSH CIRCLE
   $scope.openColorPicker = function() {
-    console.log("you've clicked the color picker!");
     var picker = document.getElementById("color-picker-element");
     picker.click();
   };
@@ -26,14 +27,37 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket) {
   canvas.addEventListener("mousedown", function(evt) {
     mouseDown = true;
     context.beginPath();
+    context.strokeStyle = $scope.brushColor;
+    context.shadowColor = $scope.brushColor;
+    context.lineWidth = ($scope.brushSize/2)+1;
+
+    context.moveTo(evt.layerX,evt.layerY);
+    context.lineTo(evt.layerX+0.5, evt.layerY+0.5);
+    context.stroke();
+
+    // Now emit the drawing to everyone else
+    socket.emit('draw',{
+      x: (evt.layerX + 1),
+      y: (evt.layerY + 1),
+      color: $scope.brushColor,
+      lineWidth: ($scope.brushSize/2)+1,
+      userID: userID
+    });
   }, false);
 
-  socket.emit('newUser',{});
+  // Here we send out an http request as soon as the page loads
+  // We are returned a unique user number.
 
-  socket.on('userID', function(data) {
-    userID = data.userID;
+  $http({
+    method: 'GET',
+    url: 'api/modules'
+  }).then(function successCallback(response) {
+    userID = response.data.userID;
     usersObject[$scope.userID] = {xArray: [], yArray:[]};
     console.log("userId is: ", userID);
+  }, function errorCallback(response) {
+    // called asynchronously if an error occurs
+    // or server returns response with an error status.
   });
 
   // Detect mouseup
@@ -81,14 +105,18 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket) {
 
   canvas.addEventListener("touchmove", function(evt) {
     // first, draw on your own canvas
-    console.log("registering touch");
     evt.preventDefault();
     context.strokeStyle = $scope.brushColor;
     context.shadowColor = $scope.brushColor;
     context.lineWidth = ($scope.brushSize/2)+1;
-    context.lineTo(evt.changedTouches[0].pageX,evt.changedTouches[0].pageY);
-    context.stroke();
-
+    var user = usersObject[$scope.userID];
+    user.xArray.push(evt.changedTouches[0].pageX);
+    user.yArray.push(evt.changedTouches[0].pageY);
+    if (user.xArray.length > 1) {
+      context.moveTo(user.xArray[user.xArray.length -2],user.yArray[user.yArray.length -2]);
+      context.lineTo(user.xArray[user.xArray.length-1],user.yArray[user.yArray.length-1]);
+      context.stroke();
+    }
     // Now emit the drawing to everyone else
     socket.emit('draw',{
       x: evt.changedTouches[0].pageX,
@@ -100,6 +128,7 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket) {
   });
 
   socket.on('newLine', function(data) {
+    console.log("in newLine");
     context.strokeStyle = data.color;
     context.shadowColor = data.color;
     context.lineWidth = data.lineWidth;
@@ -115,12 +144,18 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket) {
         context.moveTo(user.xArray[user.xArray.length -2],user.yArray[user.yArray.length -2]);
         context.lineTo(user.xArray[user.xArray.length-1],user.yArray[user.yArray.length-1]);
         context.stroke();
+      } else {
+        context.moveTo(data.x,data.y);
+        context.lineTo(data.x+0.5, data.y+0.5);
+        context.stroke();
       }
     } else {
       usersObject[data.userID] = {xArray: [], yArray:[]};
       user = usersObject[data.userID];
       user.xArray.push(data.x);
       user.yArray.push(data.y);
+      context.moveTo(data.x,data.y);
+      context.lineTo(data.x+0.5, data.y+0.5);
       context.stroke();
     }
   });
