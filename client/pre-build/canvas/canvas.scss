@@ -71,14 +71,18 @@
 
     .options-bar {
       position: fixed;
-      top: 80%;
-      margin-left: 30%;
+      top: 75%;
+      margin-left: 25%;
       left: 0;
+    }
+
+    .form-inline {
+      margin-top: 40px;
     }
 
     input[type=range] {
       -webkit-appearance: none;
-      width: 150px;
+      width: 100%;
       margin-top: 5px;
       border-radius: 8px;
       height: 20px;
