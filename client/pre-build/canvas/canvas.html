@@ -3,10 +3,20 @@
   <div id="canvas-window" class="canvas-attr"><introcard></introcard></div>
   <div class="options-bar">
     <div class="picker-container">
-      <div class="color-picker-background" ng-style="{'width':(brushSize/2+3), 'height':(brushSize/2+3), 'background-color':brushColor, 'margin-top':(50-(brushSize/2+3))}" ng-click="openColorPicker()">
+      <div class="color-picker-background" ng-style="{'width':(brushSize/2+3), 'height':(brushSize/2+3), 'background-color':brushColor, 'margin-left':75+(50-(brushSize/2+3))/2, 'margin-top':(50-(brushSize/2+3))/2}" ng-click="openColorPicker()">
       </div>
     </div>
     <input type="range" id="slider" ng-model="brushSize" class="size-picker">
+    <form class="form-inline">
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Get a room...">
+      </div>
+      <button type="button" class="btn btn-success btn-circle"><i class="glyphicon glyphicon-arrow-right"></i></button>
+    </form>
   </div>
 </section>
-<input type="color" id="color-picker-element" ng-model="brushColor" class="color-picker">
+<div class="outer">
+  <div class="inner">
+    <input type="color" id="color-picker-element" ng-model="brushColor" class="color-picker">
+  </div>
+</div>

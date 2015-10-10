@@ -1,14 +1,11 @@
 var mongoose = require('mongoose');
 var NodeModule = require('./nodemodule.model');
+var userCount = 0;
 
 module.exports = {
-  index: function (req, res) {
-    NodeModule
-      .find()
-      .exec()
-      .then(function(nodeModules) {
-        res.send(nodeModules);
-      });
+  newUser: function (req, res) {
+      userCount++;
+      res.send({userID: userCount});
  },
  create: function(req, res, next) {
     NodeModule
