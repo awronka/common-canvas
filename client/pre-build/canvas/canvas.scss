@@ -12,6 +12,15 @@
     border-radius: 10px;
     float: left;
   }
+  
+  .options-bar {
+    float: left;
+    height: 200px;
+    position: fixed;
+    top: 80%;
+    left: 40%;
+    width: 250px;
+  } 
 }
 
 @media (max-width: 600px) {
@@ -22,21 +31,24 @@
     border: none;
     float: left;
   }
-}
-  cursor: crosshair;
-
+  
   .options-bar {
     float: left;
     height: 200px;
     position: fixed;
     top: 80%;
-    left: 45%;
+    left: 15%;
     width: 250px;
-  }
+  } 
+  
+}
+  cursor: crosshair;
+
 
   .color-picker-background {
     background-color: lightgray;
     border-radius: 50%;
+    left: 10%;
     width: 200px;
     height: 100px;
     position: absolute;
@@ -60,7 +72,7 @@
   }
 
   .picker-container {
-    width: 100px;
+    width: 200px;
     height: 50px;
     vertical-align: middle;
   }
@@ -114,13 +126,23 @@
       width: 150px;
     }
 
+@media(max-width: 600px){
     .options-bar {
       position: fixed;
       top: 70%;
-      margin-left: 25%;
+      margin-left: auto;
+      margin-right: auto;
+      // left: 0;
+    }
+}
+@media(min-width: 600px){
+    .options-bar {
+      position: fixed;
+      top: 70%;
+      margin-left: 50%;
       left: 0;
     }
-
+}
     .form-inline {
       margin-top: 40px;
     }

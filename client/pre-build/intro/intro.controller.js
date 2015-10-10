@@ -18,7 +18,7 @@ app.controller('IntroCtrl', function($scope, $timeout){
 	 
 	 $timeout(function(){ 
 		$scope.subTitleShow = false;
-	 }, 3300);
+	 }, 3000);
 	 
 	 $timeout(function(){ 
 		$scope.clickStart = !($scope.clickStart);
