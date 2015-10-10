@@ -69,6 +69,23 @@
   @media only screen and (max-device-width: 1000px) {
     /* define mobile specific styles come here */
 
+    input[type=text] {
+      height: 45px;
+    }
+
+    .btn {
+      height: 45px;
+      width: 45px;
+    }
+
+    .form-control {
+      width: 145px;
+    }
+
+    .form-group {
+      width: 145px;
+    }
+
     .options-bar {
       position: fixed;
       top: 70%;
