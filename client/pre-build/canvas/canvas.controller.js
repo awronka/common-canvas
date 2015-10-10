@@ -176,6 +176,12 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket, $http
   //clears the canvas
   $scope.clearCanvas = function(){
     CanvasFactory.clear(context, canvas)
+    socket.emit('delete canvas');
   }
+  
+  //clears on other users end
+  socket.on('clear canvas', function(){
+    CanvasFactory.clear(context,canvas);
+  })
 
 });

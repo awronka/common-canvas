@@ -91,6 +91,10 @@ io.on('connection', function(socket){
   socket.on('mouseUp', function(data) {
     socket.broadcast.emit('endLine', data);
   });
+  
+  socket.on('delete canvas', function(){
+    socket.broadcast.emit('clear canvas');
+  })
 
 
 });
