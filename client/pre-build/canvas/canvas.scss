@@ -1,5 +1,7 @@
 #canvas {
 
+  cursor: crosshair;
+
   .options-bar {
     position: fixed;
     top: 80%;
@@ -13,6 +15,7 @@
     width: 200px;
     height: 100px;
     position: absolute;
+    cursor: pointer;
   }
 
   .form-inline {

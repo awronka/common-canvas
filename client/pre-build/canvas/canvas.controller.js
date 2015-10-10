@@ -27,6 +27,22 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket) {
   canvas.addEventListener("mousedown", function(evt) {
     mouseDown = true;
     context.beginPath();
+    context.strokeStyle = $scope.brushColor;
+    context.shadowColor = $scope.brushColor;
+    context.lineWidth = ($scope.brushSize/2)+1;
+
+    context.moveTo(evt.layerX,evt.layerY);
+    context.lineTo(evt.layerX+0.5, evt.layerY+0.5);
+    context.stroke();
+
+    // Now emit the drawing to everyone else
+    socket.emit('draw',{
+      x: (evt.layerX + 1),
+      y: (evt.layerY + 1),
+      color: $scope.brushColor,
+      lineWidth: ($scope.brushSize/2)+1,
+      userID: userID
+    });
   }, false);
 
   socket.emit('newUser',{});
@@ -116,12 +132,18 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket) {
         context.moveTo(user.xArray[user.xArray.length -2],user.yArray[user.yArray.length -2]);
         context.lineTo(user.xArray[user.xArray.length-1],user.yArray[user.yArray.length-1]);
         context.stroke();
+      } else {
+        context.moveTo(data.x,data.y);
+        context.lineTo(data.x+0.5, data.y+0.5);
+        context.stroke();
       }
     } else {
       usersObject[data.userID] = {xArray: [], yArray:[]};
       user = usersObject[data.userID];
       user.xArray.push(data.x);
       user.yArray.push(data.y);
+      context.moveTo(data.x,data.y);
+      context.lineTo(data.x+0.5, data.y+0.5);
       context.stroke();
     }
   });
