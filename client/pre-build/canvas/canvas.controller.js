@@ -193,7 +193,8 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket, $http
   
   // renders the new image
   socket.on('image to start', function(data){
-    console.log(data);
+    console.log(data.image);
+    CanvasFactory.drawCanvasOffSentImage(context, canvas, data.image)
   });
 
 });
