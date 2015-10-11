@@ -10,8 +10,13 @@ app.controller('CanvasController', function($scope, CanvasFactory, $state, socke
   $scope.userID = 0;
   var usersObject = {};
   
-  
-
+  $scope.userID = UserId;
+  usersObject[$scope.userID] = {xArray: [], yArray:[]};
+  // gets the room
+  function activate(){
+  socket.emit('join room', {room: $stateParams.room});
+  }
+  activate();
 
   // Initialize the basic context variables
   context.lineWidth = ($scope.brushSize/2)+1;
@@ -20,6 +25,14 @@ app.controller('CanvasController', function($scope, CanvasFactory, $state, socke
 
   console.log("stateParams are: ",$stateParams);
 
+
+  //get a room via the form
+  $scope.roomName = null;
+  $scope.goToRoom = function(room){
+    $stateParams.room = room;
+    console.log($stateParams)
+    $state.go('canvas', $stateParams)
+  }
 
   // HANDLE THE BRUSH CIRCLE
   $scope.openColorPicker = function() {
@@ -31,17 +44,17 @@ app.controller('CanvasController', function($scope, CanvasFactory, $state, socke
   // Here we send out an http request as soon as the page loads
   // We are returned a unique user number.
   
-    $http({
-    method: 'GET',
-    url: 'api/modules'
-  }).then(function successCallback(response) {
-    $scope.userID = response.data.userID;
-    usersObject[$scope.userID] = {xArray: [], yArray:[]};
-    socket.emit('join room', {room: $stateParams.room});
-  }, function errorCallback(response) {
-    // called asynchronously if an error occurs
-    // or server returns response with an error status.
-  });
+  //   $http({
+  //   method: 'GET',
+  //   url: 'api/modules'
+  // }).then(function successCallback(response) {
+  //   $scope.userID = response.data.userID;
+  //   usersObject[$scope.userID] = {xArray: [], yArray:[]};
+  //   socket.emit('join room', {room: $stateParams.room});
+  // }, function errorCallback(response) {
+  //   // called asynchronously if an error occurs
+  //   // or server returns response with an error status.
+  // });
 
   // Detect mousedown
   canvas.addEventListener("mousedown", function(evt) {
