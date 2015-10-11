@@ -181,12 +181,12 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket, UserI
   $scope.clearCanvas = function(){
     CanvasFactory.clear(context, canvas)
     socket.emit('delete canvas');
-  }
+  };
   
   //clears on other users end
   socket.on('clear canvas', function(){
     CanvasFactory.clear(context,canvas);
-  })
+  });
   
   //sends the current image to new users
   socket.on('get the current image', function(data){
