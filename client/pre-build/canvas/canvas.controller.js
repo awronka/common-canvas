@@ -55,7 +55,6 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket, $http
     userID = response.data.userID;
     usersObject[$scope.userID] = {xArray: [], yArray:[]};
     socket.emit('user created need image', {userId: userID});
-    console.log("userId is: ", userID);
   }, function errorCallback(response) {
     // called asynchronously if an error occurs
     // or server returns response with an error status.
