@@ -47,6 +47,7 @@ app.factory('CanvasFactory', function() {
             if (!data) return;
             var image = new Image();
             image.src = data;
+            console.log(image.width, image)
             image.onload = function() {
 
                 context.drawImage(image, 0, 0, image.width, image.height);
