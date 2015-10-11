@@ -10,7 +10,11 @@ app.controller('CanvasController', function($scope, CanvasFactory, $state, socke
   $scope.userID = 0;
   var usersObject = {};
   
-  //room items
+  
+   $scope.userID = UserId;
+   usersObject[$scope.userID] = {xArray: [], yArray:[]};
+   socket.emit('user created need image', {userId: $scope.userID});
+  //room name to be used in url
   $scope.roomName = null;
   $scope.goToRoom = function(room){
     $stateParams.room = room;
