@@ -29,14 +29,13 @@ app.controller('IntroCtrl', function($scope, $timeout){
 		 if($scope.introOver === true){
 			$timeout(function(){
 				$scope.clickStart = !($scope.clickStart);
-				blink(); 
-				console.log("done")
+				blink();
 			}, 750)
 		 }
-	 }
+	 };
 	 
 	 
 	 $scope.hide = function(){
 		 $scope.introOver = !($scope.introOver)
 	 }
-})
+});

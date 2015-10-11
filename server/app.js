@@ -64,7 +64,6 @@ app.use('/', function(req, res, next) {
   res.sendFile(path.join(__dirname, './index.html'));
 });
 
-
 // Errors
 //// Not found
 app.use(function(req, res, next) {

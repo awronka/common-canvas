@@ -1,6 +1,6 @@
 app.config(function($stateProvider) {
     $stateProvider.state('canvas', {
-        url: '/',
+        url: '/:room',
         templateUrl: '/pre-build/canvas/canvas.html',
         resolve: {
             UserId: function($http){
@@ -8,7 +8,7 @@ app.config(function($stateProvider) {
                         method: 'GET',
                         url: 'api/modules'
                     }).then(function successCallback(response) {
-                        console.log(response.data.userID)
+                        console.log(response.data.userID);
                         return response.data.userID;
                     }, function errorCallback(response) {
                         // called asynchronously if an error occurs
@@ -17,6 +17,5 @@ app.config(function($stateProvider) {
             }
         },
         controller: 'CanvasController'
-        
     })
 });
