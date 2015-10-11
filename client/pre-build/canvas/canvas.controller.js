@@ -1,5 +1,5 @@
 
-app.controller('CanvasController', function($scope, CanvasFactory, $state, socket, UserId, $http, $stateParams) {
+app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $state, socket, UserId, $http, $stateParams) {
   var canvasWindow = document.getElementById("canvas-window");
   var canvas = CanvasFactory.generateCanvas(canvasWindow.clientWidth,canvasWindow.clientHeight);
   var context = canvas.getContext("2d");
