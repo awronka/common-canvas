@@ -31,7 +31,7 @@ app.controller('CanvasController', function($scope, CanvasFactory, $state, socke
   $scope.goToRoom = function(room){
     $stateParams.room = room;
     console.log($stateParams)
-    $state.go('canvas', $stateParams)
+    $state.go('canvas', $stateParams,{ reload: true });
   }
 
   // HANDLE THE BRUSH CIRCLE
