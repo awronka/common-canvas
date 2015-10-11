@@ -179,9 +179,9 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
         context.lineTo(user.xArray[user.xArray.length-1],user.yArray[user.yArray.length-1]);
         context.stroke();
       } else {
-        context.moveTo(data.x,data.y);
-        context.lineTo(data.x+0.5, data.y+0.5);
-        context.stroke();
+        //context.moveTo(data.x,data.y);
+        //context.lineTo(data.x+0.5, data.y+0.5);
+        //context.stroke();
       }
     } else {
       usersObject[data.userID] = {xArray: [], yArray:[]};
