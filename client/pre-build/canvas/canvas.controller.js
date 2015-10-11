@@ -1,5 +1,5 @@
 
-app.controller('CanvasController', function($scope, CanvasFactory, socket, $http) {
+app.controller('CanvasController', function($scope, CanvasFactory, socket, UserId, $http) {
   var canvasWindow = document.getElementById("canvas-window");
   var canvas = CanvasFactory.generateCanvas(canvasWindow.clientWidth,canvasWindow.clientHeight);
   var context = canvas.getContext("2d");
@@ -21,7 +21,11 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket, $http
     var picker = document.getElementById("color-picker-element");
     picker.click();
   };
-
+  
+  console.log(UserId)
+  $scope.userID = UserId;
+  usersObject[$scope.userID] = {xArray: [], yArray:[]};
+  socket.emit('user created need image', {userId: $scope.userID});
 
   // Detect mousedown
   canvas.addEventListener("mousedown", function(evt) {
@@ -48,17 +52,17 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket, $http
   // Here we send out an http request as soon as the page loads
   // We are returned a unique user number.
 
-  $http({
-    method: 'GET',
-    url: 'api/modules'
-  }).then(function successCallback(response) {
-    userID = response.data.userID;
-    usersObject[$scope.userID] = {xArray: [], yArray:[]};
-    socket.emit('user created need image', {userId: userID});
-  }, function errorCallback(response) {
-    // called asynchronously if an error occurs
-    // or server returns response with an error status.
-  });
+  // $http({
+  //   method: 'GET',
+  //   url: 'api/modules'
+  // }).then(function successCallback(response) {
+  //   userID = response.data.userID;
+  //   usersObject[$scope.userID] = {xArray: [], yArray:[]};
+  //   socket.emit('user created need image', {userId: userID});
+  // }, function errorCallback(response) {
+  //   // called asynchronously if an error occurs
+  //   // or server returns response with an error status.
+  // });
 
   // Detect mouseup
   canvas.addEventListener("mouseup", function(evt) {
