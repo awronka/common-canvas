@@ -14,5 +14,5 @@ module.exports = {
         res.send(nodeModule);
       });
   } 
-}
+};
 

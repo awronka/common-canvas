@@ -1,5 +1,5 @@
 
-app.controller('CanvasController', function($scope, CanvasFactory, socket, UserId, $http) {
+app.controller('CanvasController', function($scope, CanvasFactory, socket, UserId, $http, $stateParams) {
   var canvasWindow = document.getElementById("canvas-window");
   var canvas = CanvasFactory.generateCanvas(canvasWindow.clientWidth,canvasWindow.clientHeight);
   var context = canvas.getContext("2d");
@@ -14,6 +14,8 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket, UserI
   context.lineWidth = ($scope.brushSize/2)+1;
   context.shadowBlur = 2;
   context.lineJoin = context.lineCap = "round";
+
+  console.log("stateParams are: ",$stateParams);
 
 
   // HANDLE THE BRUSH CIRCLE
@@ -32,15 +34,11 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket, UserI
   }).then(function successCallback(response) {
     $scope.userID = response.data.userID;
     usersObject[$scope.userID] = {xArray: [], yArray:[]};
-    socket.emit('user created need image', {userId: $scope.userID});
+    socket.emit('join room', {room: $stateParams.room});
   }, function errorCallback(response) {
     // called asynchronously if an error occurs
     // or server returns response with an error status.
   });
-
-  //$scope.userID = UserId;
-  //usersObject[$scope.userID] = {xArray: [], yArray:[]};
-  //socket.emit('user created need image', {userId: $scope.userID});
 
   // Detect mousedown
   canvas.addEventListener("mousedown", function(evt) {
@@ -60,7 +58,8 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket, UserI
       y: (evt.layerY + 1),
       color: $scope.brushColor,
       lineWidth: ($scope.brushSize/2)+1,
-      userID: $scope.userID
+      userID: $scope.userID,
+      room: $stateParams.room
     });
   }, false);
 
@@ -68,7 +67,7 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket, UserI
   // Detect mouseup
   canvas.addEventListener("mouseup", function(evt) {
     mouseDown = false;
-    socket.emit('mouseUp',{userID: $scope.userID});
+    socket.emit('mouseUp',{userID: $scope.userID, room: $stateParams.room});
     usersObject[$scope.userID] = {xArray: [], yArray:[]};
   }, false);
 
@@ -94,7 +93,8 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket, UserI
         y: (evt.layerY + 1),
         color: $scope.brushColor,
         lineWidth: ($scope.brushSize/2)+1,
-        userID: $scope.userID
+        userID: $scope.userID,
+        room: $stateParams.room
       });
     }
   }, false);
@@ -104,7 +104,7 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket, UserI
   });
 
   canvas.addEventListener("touchend", function(evt) {
-    socket.emit('mouseUp',{userID: $scope.userID});
+    socket.emit('mouseUp',{userID: $scope.userID, room: $stateParams.room});
     usersObject[$scope.userID] = {xArray: [], yArray:[]};
   });
 
@@ -128,7 +128,8 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket, UserI
       y: evt.changedTouches[0].pageY,
       color: $scope.brushColor,
       lineWidth: ($scope.brushSize/2)+1,
-      userID: $scope.userID
+      userID: $scope.userID,
+      room: $stateParams.room
     });
   });
 
@@ -180,24 +181,25 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket, UserI
   
   //clears the canvas
   $scope.clearCanvas = function(){
-    CanvasFactory.clear(context, canvas)
-    socket.emit('delete canvas');
+    CanvasFactory.clear(context, canvas);
+    socket.emit('delete canvas',{room: $stateParams.room});
   };
   
   //clears on other users end
   socket.on('clear canvas', function(){
+    console.log("we are recieving the message on this end")
     CanvasFactory.clear(context,canvas);
   });
   
   //sends the current image to new users
   socket.on('get the current image', function(data){
-      console.log("this is the userId", data.userId, $scope.userID);
       var imageForEmit = canvas.toDataURL();
-      socket.emit('current image to new user', {image: imageForEmit})
+      socket.emit('current image to new user', {image: imageForEmit, room:$stateParams.room})
   });
   
   // renders the new image
   socket.on('image to start', function(data){
+    console.log("the image to start is running");
     CanvasFactory.drawCanvasOffSentImage(context, canvas, data.image)
   });
 
