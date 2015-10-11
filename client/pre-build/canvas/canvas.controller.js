@@ -187,7 +187,7 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket, $http
   
   //sends the current image to new users
   socket.on('get the current image', function(data){
-      console.log("this is the userId", data.userId);
+      console.log("this is the userId", data.userId, $scope.userID);
       if($scope.userID === data.userId){
       var imageForEmit = canvas.toDataURL();
       socket.emit('current image to new user', {image: imageForEmit})
