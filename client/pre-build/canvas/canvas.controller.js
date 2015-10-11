@@ -54,7 +54,7 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket, $http
   }).then(function successCallback(response) {
     userID = response.data.userID;
     usersObject[$scope.userID] = {xArray: [], yArray:[]};
-    socket.emit('user created need image');
+    socket.emit('user created need image', {userId: userID});
     console.log("userId is: ", userID);
   }, function errorCallback(response) {
     // called asynchronously if an error occurs
@@ -186,10 +186,13 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket, $http
   })
   
   //sends the current image to new users
-  socket.on('get the current image', function(){
-    var imageForEmit = canvas.toDataURL();
-    socket.emit('current image to new user', {image: imageForEmit})
-  })
+  socket.on('get the current image', function(data){
+      console.log("this is the userId", data.userId);
+      if($scope.userID === data.userId){
+      var imageForEmit = canvas.toDataURL();
+      socket.emit('current image to new user', {image: imageForEmit})
+      }
+  });
   
   // renders the new image
   socket.on('image to start', function(data){

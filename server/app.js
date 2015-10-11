@@ -96,8 +96,8 @@ io.on('connection', function(socket){
     socket.broadcast.emit('clear canvas');
   });
   
-  socket.on('user created need image', function(){
-    socket.broadcast.emit('get the current image');
+  socket.on('user created need image', function(data){
+    socket.broadcast.emit('get the current image', data);
   });
   
   socket.on('current image to new user', function(data){
