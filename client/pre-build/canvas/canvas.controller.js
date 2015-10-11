@@ -10,8 +10,6 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket, UserI
   $scope.userID = 0;
   var usersObject = {};
 
-  console.log($routeParams);
-
   // Initialize the basic context variables
   context.lineWidth = ($scope.brushSize/2)+1;
   context.shadowBlur = 2;
