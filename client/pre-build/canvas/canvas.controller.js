@@ -11,6 +11,7 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
   var usersObject = {};
   
   $scope.userID = UserId;
+  console.log("my user id is: ", $scope.userID);
   usersObject[$scope.userID] = {xArray: [], yArray:[]};
   // gets the room
   function activate(){
@@ -30,9 +31,9 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
   $scope.roomName = null;
   $scope.goToRoom = function(room){
     $stateParams.room = room;
-    console.log($stateParams)
+    console.log($stateParams);
     $state.go('canvas', $stateParams,{ reload: true });
-  }
+  };
 
   // HANDLE THE BRUSH CIRCLE
   $scope.openColorPicker = function() {
@@ -167,24 +168,22 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
     context.shadowBlur = 2;
     context.lineJoin = context.lineCap = "round";
     context.beginPath();
+    console.log("the other userID is: ", data.userID);
     var user;
     if (usersObject[data.userID]) {
       user = usersObject[data.userID];
       user.xArray.push(data.x);
       user.yArray.push(data.y);
       if (user.xArray.length > 1) {
-        console.log("the stroke style is: ", context.strokeStyle);
         context.moveTo(user.xArray[user.xArray.length -2],user.yArray[user.yArray.length -2]);
         context.lineTo(user.xArray[user.xArray.length-1],user.yArray[user.yArray.length-1]);
         context.stroke();
       } else {
-        console.log("the stroke style is: ", context.strokeStyle);
         context.moveTo(data.x,data.y);
         context.lineTo(data.x+0.5, data.y+0.5);
         context.stroke();
       }
     } else {
-      console.log("the stroke style is: ", context.strokeStyle);
       usersObject[data.userID] = {xArray: [], yArray:[]};
       user = usersObject[data.userID];
       user.xArray.push(data.x);
@@ -193,7 +192,6 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
       context.lineTo(data.x+0.5, data.y+0.5);
       context.stroke();
     }
-    console.log("the stroke style is: ", context.strokeStyle);
   });
 
   socket.on('endLine', function(data) {
