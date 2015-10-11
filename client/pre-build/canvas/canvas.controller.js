@@ -1,5 +1,5 @@
 
-app.controller('CanvasController', function($scope, CanvasFactory, socket, UserId, $http, $stateParams) {
+app.controller('CanvasController', function($scope, CanvasFactory, $state, socket, UserId, $http, $stateParams) {
   var canvasWindow = document.getElementById("canvas-window");
   var canvas = CanvasFactory.generateCanvas(canvasWindow.clientWidth,canvasWindow.clientHeight);
   var context = canvas.getContext("2d");
@@ -9,6 +9,14 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket, UserI
   $scope.showOptions = false;
   $scope.userID = 0;
   var usersObject = {};
+  
+  //room items
+  $scope.roomName = null;
+  $scope.goToRoom = function(room){
+    $stateParams.room = room;
+    console.log($stateParams)
+    $state.go('canvas', $stateParams)
+  }
 
   // Initialize the basic context variables
   context.lineWidth = ($scope.brushSize/2)+1;
@@ -27,18 +35,6 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket, UserI
 
   // Here we send out an http request as soon as the page loads
   // We are returned a unique user number.
-
-  $http({
-    method: 'GET',
-    url: 'api/modules'
-  }).then(function successCallback(response) {
-    $scope.userID = response.data.userID;
-    usersObject[$scope.userID] = {xArray: [], yArray:[]};
-    socket.emit('join room', {room: $stateParams.room});
-  }, function errorCallback(response) {
-    // called asynchronously if an error occurs
-    // or server returns response with an error status.
-  });
 
   // Detect mousedown
   canvas.addEventListener("mousedown", function(evt) {

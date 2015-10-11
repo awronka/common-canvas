@@ -9,9 +9,9 @@
     <input type="range" id="slider" ng-model="brushSize" class="size-picker">
     <form class="form-inline">
       <div class="form-group">
-        <input type="text" class="form-control" placeholder="Get a room...">
+        <input type="text" class="form-control" ng-model="roomName" placeholder="Get a room...">
       </div>
-      <button type="button" class="btn btn-success btn-circle"><i class="glyphicon glyphicon-arrow-right"></i></button>
+      <button type="button" ng-click="goToRoom(roomName)" class="btn btn-success btn-circle"><i class="glyphicon glyphicon-arrow-right"></i></button>
       <button type="button" ng-click="clearCanvas()" class="btn btn-danger btn-circle">C</button>
     </form>
   </div>
