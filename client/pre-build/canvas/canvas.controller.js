@@ -190,6 +190,7 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
       context.lineTo(data.x+0.5, data.y+0.5);
       context.stroke();
     }
+    console.log("the stroke style is: ", context.strokeStyle);
   });
 
   socket.on('endLine', function(data) {
