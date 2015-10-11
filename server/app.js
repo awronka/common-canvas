@@ -97,11 +97,11 @@ io.on('connection', function(socket){
   });
   
   socket.on('user created need image', function(data){
-    socket.emit('get the current image', data);
+    socket.broadcast.emit('get the current image', data);
   });
   
   socket.on('current image to new user', function(data){
-    socket.emit('image to start', data);
+    socket.broadcast.emit('image to start', data);
   });
 
 

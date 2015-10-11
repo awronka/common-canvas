@@ -7,7 +7,7 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket, UserI
   $scope.brushColor = "#000000";
   $scope.brushSize = 50;
   $scope.showOptions = false;
-  var userID = 0;
+  $scope.userID = 0;
   var usersObject = {};
 
   // Initialize the basic context variables
@@ -21,11 +21,26 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket, UserI
     var picker = document.getElementById("color-picker-element");
     picker.click();
   };
-  
-  console.log(UserId)
-  $scope.userID = UserId;
-  usersObject[$scope.userID] = {xArray: [], yArray:[]};
-  socket.emit('user created need image', {userId: $scope.userID});
+
+
+  // Here we send out an http request as soon as the page loads
+  // We are returned a unique user number.
+
+  $http({
+    method: 'GET',
+    url: 'api/modules'
+  }).then(function successCallback(response) {
+    $scope.userID = response.data.userID;
+    usersObject[$scope.userID] = {xArray: [], yArray:[]};
+    socket.emit('user created need image', {userId: $scope.userID});
+  }, function errorCallback(response) {
+    // called asynchronously if an error occurs
+    // or server returns response with an error status.
+  });
+
+  //$scope.userID = UserId;
+  //usersObject[$scope.userID] = {xArray: [], yArray:[]};
+  //socket.emit('user created need image', {userId: $scope.userID});
 
   // Detect mousedown
   canvas.addEventListener("mousedown", function(evt) {
@@ -45,29 +60,15 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket, UserI
       y: (evt.layerY + 1),
       color: $scope.brushColor,
       lineWidth: ($scope.brushSize/2)+1,
-      userID: userID
+      userID: $scope.userID
     });
   }, false);
 
-  // Here we send out an http request as soon as the page loads
-  // We are returned a unique user number.
-
-  // $http({
-  //   method: 'GET',
-  //   url: 'api/modules'
-  // }).then(function successCallback(response) {
-  //   userID = response.data.userID;
-  //   usersObject[$scope.userID] = {xArray: [], yArray:[]};
-  //   socket.emit('user created need image', {userId: userID});
-  // }, function errorCallback(response) {
-  //   // called asynchronously if an error occurs
-  //   // or server returns response with an error status.
-  // });
 
   // Detect mouseup
   canvas.addEventListener("mouseup", function(evt) {
     mouseDown = false;
-    socket.emit('mouseUp',{userID: userID});
+    socket.emit('mouseUp',{userID: $scope.userID});
     usersObject[$scope.userID] = {xArray: [], yArray:[]};
   }, false);
 
@@ -93,7 +94,7 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket, UserI
         y: (evt.layerY + 1),
         color: $scope.brushColor,
         lineWidth: ($scope.brushSize/2)+1,
-        userID: userID
+        userID: $scope.userID
       });
     }
   }, false);
@@ -103,7 +104,7 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket, UserI
   });
 
   canvas.addEventListener("touchend", function(evt) {
-    socket.emit('mouseUp',{userID: userID});
+    socket.emit('mouseUp',{userID: $scope.userID});
     usersObject[$scope.userID] = {xArray: [], yArray:[]};
   });
 
@@ -127,7 +128,7 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket, UserI
       y: evt.changedTouches[0].pageY,
       color: $scope.brushColor,
       lineWidth: ($scope.brushSize/2)+1,
-      userID: userID
+      userID: $scope.userID
     });
   });
 
@@ -191,10 +192,8 @@ app.controller('CanvasController', function($scope, CanvasFactory, socket, UserI
   //sends the current image to new users
   socket.on('get the current image', function(data){
       console.log("this is the userId", data.userId, $scope.userID);
-      if($scope.userID === data.userId){
       var imageForEmit = canvas.toDataURL();
       socket.emit('current image to new user', {image: imageForEmit})
-      }
   });
   
   // renders the new image

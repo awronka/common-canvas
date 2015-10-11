@@ -19,6 +19,8 @@ app.factory('CanvasFactory', function() {
             canvas.setAttribute("class", "screen-canvas");
             canvas.width = width * PIXEL_RATIO;
             canvas.height = height * PIXEL_RATIO;
+            console.log("the canvas width is: ", canvas.width);
+            console.log("the canvas height is: ", canvas.height);
             canvas.style.width = width + "px";
             canvas.style.height = height + "px";
             canvas.getContext("2d").setTransform(PIXEL_RATIO, 0, 0, PIXEL_RATIO, 0, 0);
@@ -47,10 +49,11 @@ app.factory('CanvasFactory', function() {
             if (!data) return;
             var image = new Image();
             image.src = data;
-            console.log(image.width, image)
+            console.log("the image width is: ", image.width);
+            console.log("the image height is: ", image.height);
             image.onload = function() {
-
-                context.drawImage(image, 0, 0, image.width, image.height);
+                //context.drawImage(image, 0, 0, image.width, image.height);
+                context.drawImage(image,0,0,image.width/PIXEL_RATIO,image.height/PIXEL_RATIO);
             };
         }
     };
