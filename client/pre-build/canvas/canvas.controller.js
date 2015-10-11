@@ -117,6 +117,16 @@ app.controller('CanvasController', function($scope, CanvasFactory, $state, socke
 
   canvas.addEventListener("touchstart", function(evt) {
     context.beginPath();
+    context.strokeStyle = $scope.brushColor;
+    context.shadowColor = $scope.brushColor;
+    context.lineWidth = ($scope.brushSize/2)+1;
+    var user = usersObject[$scope.userID];
+    user.xArray.push(evt.changedTouches[0].pageX);
+    user.yArray.push(evt.changedTouches[0].pageY);
+
+    context.moveTo(evt.changedTouches[0].pageX,evt.changedTouches[0].pageY);
+    context.lineTo(evt.changedTouches[0].pageX+0.5, evt.changedTouches[0].pageY+0.5);
+    context.stroke();
   });
 
   canvas.addEventListener("touchend", function(evt) {
