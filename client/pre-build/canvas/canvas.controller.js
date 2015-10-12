@@ -151,14 +151,14 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
 
   socket.on('newLine', function(data) {
     console.log("in newLine");
+    var user;
+    if (usersObject[data.userID]) {
     context.strokeStyle = data.color;
     context.shadowColor = data.color;
     context.lineWidth = data.lineWidth;
     context.shadowBlur = 2;
     context.lineJoin = context.lineCap = "round";
     context.beginPath();
-    var user;
-    if (usersObject[data.userID]) {
       user = usersObject[data.userID];
       user.xArray.push(data.x);
       user.yArray.push(data.y);
