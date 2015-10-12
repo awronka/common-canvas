@@ -100,49 +100,49 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
     }
   }, false);
 
-  // canvas.addEventListener("touchstart", function(evt) {
-  //   context.beginPath();
-  //   context.strokeStyle = $scope.brushColor;
-  //   context.shadowColor = $scope.brushColor;
-  //   context.lineWidth = ($scope.brushSize/2)+1;
-  //   var user = usersObject[$scope.userID];
-  //   user.xArray.push(evt.changedTouches[0].pageX);
-  //   user.yArray.push(evt.changedTouches[0].pageY);
+  canvas.addEventListener("touchstart", function(evt) {
+    // context.beginPath();
+    // context.strokeStyle = $scope.brushColor;
+    // context.shadowColor = $scope.brushColor;
+    // context.lineWidth = ($scope.brushSize/2)+1;
+    // var user = usersObject[$scope.userID];
+    // user.xArray.push(evt.changedTouches[0].pageX);
+    // user.yArray.push(evt.changedTouches[0].pageY);
 
-  //   context.moveTo(evt.changedTouches[0].pageX,evt.changedTouches[0].pageY);
-  //   context.lineTo(evt.changedTouches[0].pageX+0.5, evt.changedTouches[0].pageY+0.5);
-  //   context.stroke();
-  // });
+    // context.moveTo(evt.changedTouches[0].pageX,evt.changedTouches[0].pageY);
+    // context.lineTo(evt.changedTouches[0].pageX+0.5, evt.changedTouches[0].pageY+0.5);
+    // context.stroke();
+  });
 
-  // canvas.addEventListener("touchend", function(evt) {
-  //   socket.emit('mouseUp',{userID: $scope.userID, room: $stateParams.room});
-  //   usersObject[$scope.userID] = {xArray: [], yArray:[]};
-  // });
+  canvas.addEventListener("touchend", function(evt) {
+    socket.emit('mouseUp',{userID: $scope.userID, room: $stateParams.room});
+    usersObject[$scope.userID] = {xArray: [], yArray:[]};
+  });
 
-  // canvas.addEventListener("touchmove", function(evt) {
-  //   // first, draw on your own canvas
-  //   evt.preventDefault();
-  //   context.strokeStyle = $scope.brushColor;
-  //   context.shadowColor = $scope.brushColor;
-  //   context.lineWidth = ($scope.brushSize/2)+1;
-  //   var user = usersObject[$scope.userID];
-  //   user.xArray.push(evt.changedTouches[0].pageX);
-  //   user.yArray.push(evt.changedTouches[0].pageY);
-  //   if (user.xArray.length > 1) {
-  //     context.moveTo(user.xArray[user.xArray.length -2],user.yArray[user.yArray.length -2]);
-  //     context.lineTo(user.xArray[user.xArray.length-1],user.yArray[user.yArray.length-1]);
-  //     context.stroke();
-  //   }
-  //   // Now emit the drawing to everyone else
-  //   socket.emit('draw',{
-  //     x: evt.changedTouches[0].pageX,
-  //     y: evt.changedTouches[0].pageY,
-  //     color: $scope.brushColor,
-  //     lineWidth: ($scope.brushSize/2)+1,
-  //     userID: $scope.userID,
-  //     room: $stateParams.room
-  //   });
-  // });
+  canvas.addEventListener("touchmove", function(evt) {
+    // first, draw on your own canvas
+    evt.preventDefault();
+    // context.strokeStyle = $scope.brushColor;
+    // context.shadowColor = $scope.brushColor;
+    // context.lineWidth = ($scope.brushSize/2)+1;
+    // var user = usersObject[$scope.userID];
+    // user.xArray.push(evt.changedTouches[0].pageX);
+    // user.yArray.push(evt.changedTouches[0].pageY);
+    // if (user.xArray.length > 1) {
+    //   context.moveTo(user.xArray[user.xArray.length -2],user.yArray[user.yArray.length -2]);
+    //   context.lineTo(user.xArray[user.xArray.length-1],user.yArray[user.yArray.length-1]);
+    //   context.stroke();
+    // }
+    // Now emit the drawing to everyone else
+    socket.emit('draw',{
+      x: evt.changedTouches[0].pageX,
+      y: evt.changedTouches[0].pageY,
+      color: $scope.brushColor,
+      lineWidth: ($scope.brushSize/2)+1,
+      userID: $scope.userID,
+      room: $stateParams.room
+    });
+  });
   
   //added a second user object in an attempt to debug the color/brush size error.
    var usersObject2 = {};
