@@ -11,6 +11,7 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
   var usersObject = {};
   
   $scope.userID = UserId;
+  console.log("my user id is: ", $scope.userID);
   usersObject[$scope.userID] = {xArray: [], yArray:[]};
   // gets the room
   function activate(){
@@ -30,9 +31,9 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
   $scope.roomName = null;
   $scope.goToRoom = function(room){
     $stateParams.room = room;
-    console.log($stateParams)
+    console.log($stateParams);
     $state.go('canvas', $stateParams,{ reload: true });
-  }
+  };
 
   // HANDLE THE BRUSH CIRCLE
   $scope.openColorPicker = function() {
@@ -117,6 +118,16 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
 
   canvas.addEventListener("touchstart", function(evt) {
     context.beginPath();
+    context.strokeStyle = $scope.brushColor;
+    context.shadowColor = $scope.brushColor;
+    context.lineWidth = ($scope.brushSize/2)+1;
+    var user = usersObject[$scope.userID];
+    user.xArray.push(evt.changedTouches[0].pageX);
+    user.yArray.push(evt.changedTouches[0].pageY);
+
+    context.moveTo(evt.changedTouches[0].pageX,evt.changedTouches[0].pageY);
+    context.lineTo(evt.changedTouches[0].pageX+0.5, evt.changedTouches[0].pageY+0.5);
+    context.stroke();
   });
 
   canvas.addEventListener("touchend", function(evt) {
@@ -159,6 +170,7 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
     context.shadowBlur = 2;
     context.lineJoin = context.lineCap = "round";
     context.beginPath();
+    console.log("the other userID is: ", data.userID);
       user = usersObject[data.userID];
       user.xArray.push(data.x);
       user.yArray.push(data.y);
@@ -167,9 +179,9 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
         context.lineTo(user.xArray[user.xArray.length-1],user.yArray[user.yArray.length-1]);
         context.stroke();
       } else {
-        context.moveTo(data.x,data.y);
-        context.lineTo(data.x+0.5, data.y+0.5);
-        context.stroke();
+        //context.moveTo(data.x,data.y);
+        //context.lineTo(data.x+0.5, data.y+0.5);
+        //context.stroke();
       }
     } else {
       usersObject[data.userID] = {xArray: [], yArray:[]};
