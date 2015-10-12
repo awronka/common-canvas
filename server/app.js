@@ -84,27 +84,27 @@ io.on('connection', function(socket){
   // Recieve notification of drawn line
   socket.on('draw', function(data) {
     console.log("room in draw is: ", data.room);
-    socket.to(data.room).broadcast.emit('newLine', data);
+    socket.to(data.room).emit('newLine', data);
   });
 
   // Recieve notification of mouseup
   socket.on('mouseUp', function(data) {
     console.log("room in mouseUp is: ", data.room);
-    socket.to(data.room).broadcast.emit('endLine', data);
+    socket.to(data.room).emit('endLine', data);
   });
   
   socket.on('delete canvas', function(data){
     console.log("room is: ", data.room);
-    socket.to(data.room).broadcast.emit('clear canvas');
+    socket.to(data.room).emit('clear canvas');
   });
   
   socket.on('current image to new user', function(data){
-    socket.to(data.room).broadcast.emit('image to start', data);
+    socket.to(data.room).emit('image to start', data);
   });
 
   socket.on('join room', function(data){
     socket.join(data.room);
-    socket.to(data.room).broadcast.emit('get the current image', data);
+    socket.to(data.room).emit('get the current image', data);
   });
 
 

@@ -45,13 +45,13 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
   // Detect mousedown
   canvas.addEventListener("mousedown", function(evt) {
     mouseDown = true;
-    context.beginPath();
-    context.strokeStyle = $scope.brushColor;
-    context.shadowColor = $scope.brushColor;
-    context.lineWidth = ($scope.brushSize/2)+1;
-    context.moveTo(evt.layerX,evt.layerY);
-    context.lineTo(evt.layerX+0.5, evt.layerY+0.5);
-    context.stroke();
+    // context.beginPath();
+    // context.strokeStyle = $scope.brushColor;
+    // context.shadowColor = $scope.brushColor;
+    // context.lineWidth = ($scope.brushSize/2)+1;
+    // context.moveTo(evt.layerX,evt.layerY);
+    // context.lineTo(evt.layerX+0.5, evt.layerY+0.5);
+    // context.stroke();
 
     // Now emit the drawing to everyone else
     socket.emit('draw',{
@@ -76,17 +76,17 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
   canvas.addEventListener("mousemove", function(evt) {
     if (mouseDown) {
       // first, draw on your own canvas
-      context.strokeStyle = $scope.brushColor;
-      context.shadowColor = $scope.brushColor;
-      context.lineWidth = ($scope.brushSize/2)+1;
-      var user = usersObject[$scope.userID];
-      user.xArray.push(evt.layerX+1);
-      user.yArray.push(evt.layerY+1);
-      if (user.xArray.length > 1) {
-        context.moveTo(user.xArray[user.xArray.length -2],user.yArray[user.yArray.length -2]);
-        context.lineTo(user.xArray[user.xArray.length-1],user.yArray[user.yArray.length-1]);
-        context.stroke();
-      }
+      // context.strokeStyle = $scope.brushColor;
+      // context.shadowColor = $scope.brushColor;
+      // context.lineWidth = ($scope.brushSize/2)+1;
+      // var user = usersObject[$scope.userID];
+      // user.xArray.push(evt.layerX+1);
+      // user.yArray.push(evt.layerY+1);
+      // if (user.xArray.length > 1) {
+      //   context.moveTo(user.xArray[user.xArray.length -2],user.yArray[user.yArray.length -2]);
+      //   context.lineTo(user.xArray[user.xArray.length-1],user.yArray[user.yArray.length-1]);
+      //   context.stroke();
+      // }
 
       // Now emit the drawing to everyone else
       socket.emit('draw',{
