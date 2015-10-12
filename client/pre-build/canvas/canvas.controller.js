@@ -201,8 +201,8 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
 
   socket.on('endLine', function(data) {
     console.log("recieiving end line");
-    if (usersObject[data.userID]) {
-      usersObject[data.userID] = {xArray: [], yArray:[]};
+    if (usersObject2[data.userID]) {
+      usersObject2[data.userID] = {xArray: [], yArray:[]};
     }
   });
 
