@@ -169,7 +169,7 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
       user.xArray.push(data.x);
       user.yArray.push(data.y);
       if (user.xArray.length > 1) {
-        console.log(user)
+        // console.log(user)
         context.strokeStyle = data.color;
         context.shadowColor = data.color;
         console.log("The color is" , context.strokeStyle);
@@ -188,8 +188,10 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
     } else {
       usersObject[data.userID] = {xArray: [], yArray:[]};
       user = usersObject[data.userID];
+      
       user.xArray.push(data.x);
       user.yArray.push(data.y);
+      console.log("The color is" , context.strokeStyle);
       context.moveTo(data.x,data.y);
       context.lineTo(data.x+0.5, data.y+0.5);
       context.stroke();
