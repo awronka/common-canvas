@@ -81,6 +81,7 @@ app.factory('CanvasFactory', function() {
                     context.moveTo(data.x,data.y);
                     context.lineTo(data.x+0.5, data.y+0.5);
                     context.stroke();
+                    console.log(context.stroke());
                 }
                 } else {
                 usersObject2[data.userID] = {xArray: [], yArray:[]};

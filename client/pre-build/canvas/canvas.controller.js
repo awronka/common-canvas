@@ -39,8 +39,6 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
   $scope.openColorPicker = function() {
     var picker = document.getElementById("color-picker-element");
     picker.click();
-    context.strokeStyle = $scope.brushColor;
-    context.shadowColor = $scope.brushColor;
   };
 
 
@@ -48,6 +46,8 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
   canvas.addEventListener("mousedown", function(evt) {
     mouseDown = true;
     context.beginPath();
+    context.strokeStyle = $scope.brushColor;
+    context.shadowColor = $scope.brushColor;
     context.lineWidth = ($scope.brushSize/2)+1;
     context.moveTo(evt.layerX,evt.layerY);
     context.lineTo(evt.layerX+0.5, evt.layerY+0.5);
