@@ -55,6 +55,45 @@ app.factory('CanvasFactory', function() {
                 //context.drawImage(image, 0, 0, image.width, image.height);
                 context.drawImage(image,0,0,image.width/PIXEL_RATIO,image.height/PIXEL_RATIO);
             };
+        },
+        drawLineData: function(data, usersObject2, context){
+                console.log("in newLine");
+                var user2;
+                console.log("This is the second user", usersObject2[data.userID])
+                if (usersObject2[data.userID]) {
+                context.strokeStyle = data.color;
+                context.shadowColor = data.color;
+                context.lineWidth = data.lineWidth;
+                context.shadowBlur = 2;
+                context.lineJoin = context.lineCap = "round";
+                context.beginPath();
+                console.log("1 the color is ", context.strokeStyle);
+                user2 = usersObject2[data.userID];
+                user2.xArray.push(data.x);
+                user2.yArray.push(data.y);
+                if (user2.xArray.length > 1) {
+                    context.moveTo(user2.xArray[user2.xArray.length -2],user2.yArray[user2.yArray.length -2]);
+                    console.log("2 the color is ", context.strokeStyle);
+                    context.lineTo(user2.xArray[user2.xArray.length-1],user2.yArray[user2.yArray.length-1]);
+                    console.log("3 the color is ", context.strokeStyle);
+                    context.stroke();
+                } else {
+                    context.moveTo(data.x,data.y);
+                    context.lineTo(data.x+0.5, data.y+0.5);
+                    context.stroke();
+                }
+                } else {
+                usersObject2[data.userID] = {xArray: [], yArray:[]};
+                user2 = usersObject2[data.userID];
+                user2.xArray.push(data.x);
+                user2.yArray.push(data.y);
+                context.moveTo(data.x,data.y);
+                console.log("4 the color is ", context.strokeStyle);
+                context.lineTo(data.x+0.5, data.y+0.5);
+                console.log("5 the color is ", context.strokeStyle);
+                context.stroke();
+                }
+            
         }
     };
 });
