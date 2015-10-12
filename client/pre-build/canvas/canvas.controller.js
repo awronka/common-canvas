@@ -163,7 +163,7 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
   socket.on('newLine', function(data) {
     console.log("in newLine");
     var user2;
- 
+    console.log("This is the second user", usersObject2[data.userID])
     if (usersObject2[data.userID]) {
     context.strokeStyle = data.color;
     context.shadowColor = data.color;
