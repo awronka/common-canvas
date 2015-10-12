@@ -162,23 +162,23 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
 
   socket.on('newLine', function(data) {
     console.log("in newLine");
-    var user2;
+    var user;
     if (usersObject[data.userID]) {
-        context.strokeStyle = data.color;
-        context.shadowColor = data.color;
-        console.log("The color is" , context.strokeStyle);
-        context.lineWidth = data.lineWidth;
-        context.shadowBlur = 2;
-        context.lineJoin = context.lineCap = "round";
-        context.beginPath();
-    // console.log("the other userID is: ", data.userID);
-      user2 = usersObject[data.userID];
-      user2.xArray.push(data.x);
-      user2.yArray.push(data.y);
-      if (user2.xArray.length > 1) {
-        // console.log(user2)
-        context.moveTo(user2.xArray[user2.xArray.length -2],user2.yArray[user2.yArray.length -2]);
-        context.lineTo(user2.xArray[user2.xArray.length-1],user2.yArray[user2.yArray.length-1]);
+    context.strokeStyle = data.color;
+    context.shadowColor = data.color;
+    context.lineWidth = data.lineWidth;
+    context.shadowBlur = 2;
+    context.lineJoin = context.lineCap = "round";
+    context.beginPath();
+    console.log("1 the color is ", context.strokeStyle);
+      user = usersObject[data.userID];
+      user.xArray.push(data.x);
+      user.yArray.push(data.y);
+      if (user.xArray.length > 1) {
+        context.moveTo(user.xArray[user.xArray.length -2],user.yArray[user.yArray.length -2]);
+         console.log("2 the color is ", context.strokeStyle);
+        context.lineTo(user.xArray[user.xArray.length-1],user.yArray[user.yArray.length-1]);
+        console.log("3 the color is ", context.strokeStyle);
         context.stroke();
       } else {
         //context.moveTo(data.x,data.y);
@@ -187,13 +187,13 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
       }
     } else {
       usersObject[data.userID] = {xArray: [], yArray:[]};
-      user2 = usersObject[data.userID];
-      
-      user2.xArray.push(data.x);
-      user2.yArray.push(data.y);
-      console.log("The color is" , context.strokeStyle);
+      user = usersObject[data.userID];
+      user.xArray.push(data.x);
+      user.yArray.push(data.y);
       context.moveTo(data.x,data.y);
+       console.log("4 the color is ", context.strokeStyle);
       context.lineTo(data.x+0.5, data.y+0.5);
+       console.log("5 the color is ", context.strokeStyle);
       context.stroke();
     }
   });
