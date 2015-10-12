@@ -56,7 +56,7 @@ app.factory('CanvasFactory', function() {
                 context.drawImage(image,0,0,image.width/PIXEL_RATIO,image.height/PIXEL_RATIO);
             };
         },
-        drawLineData: function(data, usersObject2, context){
+        drawLineData: function(data, usersObject2, context, mouseLogic){
                 var user2;
                 if (usersObject2[data.userID]) {
                 context.strokeStyle = data.color;

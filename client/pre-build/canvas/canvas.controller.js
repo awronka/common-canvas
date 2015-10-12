@@ -45,13 +45,13 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
   // Detect mousedown
   canvas.addEventListener("mousedown", function(evt) {
     mouseDown = true;
-    // context.beginPath();
-    // context.strokeStyle = $scope.brushColor;
-    // context.shadowColor = $scope.brushColor;
-    // context.lineWidth = ($scope.brushSize/2)+1;
-    // context.moveTo(evt.layerX,evt.layerY);
-    // context.lineTo(evt.layerX+0.5, evt.layerY+0.5);
-    // context.stroke();
+    context.beginPath();
+    context.strokeStyle = $scope.brushColor;
+    context.shadowColor = $scope.brushColor;
+    context.lineWidth = ($scope.brushSize/2)+1;
+    context.moveTo(evt.layerX,evt.layerY);
+    context.lineTo(evt.layerX+0.5, evt.layerY+0.5);
+    context.stroke();
 
     // Now emit the drawing to everyone else
     socket.emit('draw',{
@@ -76,17 +76,17 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
   canvas.addEventListener("mousemove", function(evt) {
     if (mouseDown) {
       // first, draw on your own canvas
-      // context.strokeStyle = $scope.brushColor;
-      // context.shadowColor = $scope.brushColor;
-      // context.lineWidth = ($scope.brushSize/2)+1;
-      // var user = usersObject[$scope.userID];
-      // user.xArray.push(evt.layerX+1);
-      // user.yArray.push(evt.layerY+1);
-      // if (user.xArray.length > 1) {
-      //   context.moveTo(user.xArray[user.xArray.length -2],user.yArray[user.yArray.length -2]);
-      //   context.lineTo(user.xArray[user.xArray.length-1],user.yArray[user.yArray.length-1]);
-      //   context.stroke();
-      // }
+      context.strokeStyle = $scope.brushColor;
+      context.shadowColor = $scope.brushColor;
+      context.lineWidth = ($scope.brushSize/2)+1;
+      var user = usersObject[$scope.userID];
+      user.xArray.push(evt.layerX+1);
+      user.yArray.push(evt.layerY+1);
+      if (user.xArray.length > 1) {
+        context.moveTo(user.xArray[user.xArray.length -2],user.yArray[user.yArray.length -2]);
+        context.lineTo(user.xArray[user.xArray.length-1],user.yArray[user.yArray.length-1]);
+        context.stroke();
+      }
 
       // Now emit the drawing to everyone else
       socket.emit('draw',{
@@ -101,17 +101,17 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
   }, false);
 
   canvas.addEventListener("touchstart", function(evt) {
-    // context.beginPath();
-    // context.strokeStyle = $scope.brushColor;
-    // context.shadowColor = $scope.brushColor;
-    // context.lineWidth = ($scope.brushSize/2)+1;
-    // var user = usersObject[$scope.userID];
-    // user.xArray.push(evt.changedTouches[0].pageX);
-    // user.yArray.push(evt.changedTouches[0].pageY);
+    context.beginPath();
+    context.strokeStyle = $scope.brushColor;
+    context.shadowColor = $scope.brushColor;
+    context.lineWidth = ($scope.brushSize/2)+1;
+    var user = usersObject[$scope.userID];
+    user.xArray.push(evt.changedTouches[0].pageX);
+    user.yArray.push(evt.changedTouches[0].pageY);
 
-    // context.moveTo(evt.changedTouches[0].pageX,evt.changedTouches[0].pageY);
-    // context.lineTo(evt.changedTouches[0].pageX+0.5, evt.changedTouches[0].pageY+0.5);
-    // context.stroke();
+    context.moveTo(evt.changedTouches[0].pageX,evt.changedTouches[0].pageY);
+    context.lineTo(evt.changedTouches[0].pageX+0.5, evt.changedTouches[0].pageY+0.5);
+    context.stroke();
   });
 
   canvas.addEventListener("touchend", function(evt) {
@@ -122,17 +122,17 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
   canvas.addEventListener("touchmove", function(evt) {
     // first, draw on your own canvas
     evt.preventDefault();
-    // context.strokeStyle = $scope.brushColor;
-    // context.shadowColor = $scope.brushColor;
-    // context.lineWidth = ($scope.brushSize/2)+1;
-    // var user = usersObject[$scope.userID];
-    // user.xArray.push(evt.changedTouches[0].pageX);
-    // user.yArray.push(evt.changedTouches[0].pageY);
-    // if (user.xArray.length > 1) {
-    //   context.moveTo(user.xArray[user.xArray.length -2],user.yArray[user.yArray.length -2]);
-    //   context.lineTo(user.xArray[user.xArray.length-1],user.yArray[user.yArray.length-1]);
-    //   context.stroke();
-    // }
+    context.strokeStyle = $scope.brushColor;
+    context.shadowColor = $scope.brushColor;
+    context.lineWidth = ($scope.brushSize/2)+1;
+    var user = usersObject[$scope.userID];
+    user.xArray.push(evt.changedTouches[0].pageX);
+    user.yArray.push(evt.changedTouches[0].pageY);
+    if (user.xArray.length > 1) {
+      context.moveTo(user.xArray[user.xArray.length -2],user.yArray[user.yArray.length -2]);
+      context.lineTo(user.xArray[user.xArray.length-1],user.yArray[user.yArray.length-1]);
+      context.stroke();
+    }
     // Now emit the drawing to everyone else
     socket.emit('draw',{
       x: evt.changedTouches[0].pageX,
@@ -147,7 +147,7 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
   //added a second user object in an attempt to debug the color/brush size error.
    var usersObject2 = {};
   socket.on('newLine', function(data) {
-    CanvasFactory.drawLineData(data, usersObject2, context)
+    CanvasFactory.drawLineData(data, usersObject2, context, mouseDown)
   });
 
   socket.on('endLine', function(data) {
@@ -186,5 +186,17 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
     console.log("the image to start is running");
     CanvasFactory.drawCanvasOffSentImage(context, canvas, data.image)
   });
+  
+  //save image 
+  $scope.saveCanvas = function(){
+    var imagetoSave = canvas.toDataUrl();
+    var saveObject = {}
+    saveObject.room = $stateParams.room;
+    saveObject.image = imagetoSave;
+    $http.post('api/modules', saveObject).then(function (res) {
+			console.log(res.data)
+			return res.data;
+		});
+  }
 
 });
