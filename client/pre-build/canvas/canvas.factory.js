@@ -77,11 +77,13 @@ app.factory('CanvasFactory', function() {
                     context.lineTo(user2.xArray[user2.xArray.length-1],user2.yArray[user2.yArray.length-1]);
                     console.log("3 the color is ", context.strokeStyle);
                     context.stroke();
+                    console.log("6 the color is ", context.strokeStyle);
                 } else {
                     context.moveTo(data.x,data.y);
                     context.lineTo(data.x+0.5, data.y+0.5);
+                    console.log("7 the color is ", context.strokeStyle);
                     context.stroke();
-                    console.log(context.stroke());
+                    console.log("8 the color is ", context.strokeStyle);
                 }
                 } else {
                 usersObject2[data.userID] = {xArray: [], yArray:[]};
