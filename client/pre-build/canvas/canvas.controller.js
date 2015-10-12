@@ -39,6 +39,8 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
   $scope.openColorPicker = function() {
     var picker = document.getElementById("color-picker-element");
     picker.click();
+    context.strokeStyle = $scope.brushColor;
+    context.shadowColor = $scope.brushColor;
   };
 
 
@@ -61,8 +63,6 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
   canvas.addEventListener("mousedown", function(evt) {
     mouseDown = true;
     context.beginPath();
-    context.strokeStyle = $scope.brushColor;
-    context.shadowColor = $scope.brushColor;
     context.lineWidth = ($scope.brushSize/2)+1;
 
     context.moveTo(evt.layerX,evt.layerY);
@@ -182,9 +182,9 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
         console.log("3 the color is ", context.strokeStyle);
         context.stroke();
       } else {
-        //context.moveTo(data.x,data.y);
-        //context.lineTo(data.x+0.5, data.y+0.5);
-        //context.stroke();
+        context.moveTo(data.x,data.y);
+        context.lineTo(data.x+0.5, data.y+0.5);
+        context.stroke();
       }
     } else {
       usersObject2[data.userID] = {xArray: [], yArray:[]};
