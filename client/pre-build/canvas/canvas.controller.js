@@ -162,14 +162,14 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
 
   socket.on('newLine', function(data) {
     console.log("in newLine");
-    var user;
+    var user2;
     if (usersObject[data.userID]) {
     // console.log("the other userID is: ", data.userID);
-      user = usersObject[data.userID];
-      user.xArray.push(data.x);
-      user.yArray.push(data.y);
-      if (user.xArray.length > 1) {
-        // console.log(user)
+      user2 = usersObject[data.userID];
+      user2.xArray.push(data.x);
+      user2.yArray.push(data.y);
+      if (user2.xArray.length > 1) {
+        // console.log(user2)
         context.strokeStyle = data.color;
         context.shadowColor = data.color;
         console.log("The color is" , context.strokeStyle);
@@ -177,8 +177,8 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
         context.shadowBlur = 2;
         context.lineJoin = context.lineCap = "round";
         context.beginPath();
-        context.moveTo(user.xArray[user.xArray.length -2],user.yArray[user.yArray.length -2]);
-        context.lineTo(user.xArray[user.xArray.length-1],user.yArray[user.yArray.length-1]);
+        context.moveTo(user2.xArray[user2.xArray.length -2],user2.yArray[user2.yArray.length -2]);
+        context.lineTo(user2.xArray[user2.xArray.length-1],user2.yArray[user2.yArray.length-1]);
         context.stroke();
       } else {
         //context.moveTo(data.x,data.y);
@@ -187,10 +187,10 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
       }
     } else {
       usersObject[data.userID] = {xArray: [], yArray:[]};
-      user = usersObject[data.userID];
+      user2 = usersObject[data.userID];
       
-      user.xArray.push(data.x);
-      user.yArray.push(data.y);
+      user2.xArray.push(data.x);
+      user2.yArray.push(data.y);
       console.log("The color is" , context.strokeStyle);
       context.moveTo(data.x,data.y);
       context.lineTo(data.x+0.5, data.y+0.5);
