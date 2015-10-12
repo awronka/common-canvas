@@ -164,17 +164,17 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
     console.log("in newLine");
     var user;
     if (usersObject[data.userID]) {
-    context.strokeStyle = data.color;
-    context.shadowColor = data.color;
-    context.lineWidth = data.lineWidth;
-    context.shadowBlur = 2;
-    context.lineJoin = context.lineCap = "round";
-    context.beginPath();
     console.log("the other userID is: ", data.userID);
       user = usersObject[data.userID];
       user.xArray.push(data.x);
       user.yArray.push(data.y);
       if (user.xArray.length > 1) {
+      context.strokeStyle = data.color;
+      context.shadowColor = data.color;
+      context.lineWidth = data.lineWidth;
+      context.shadowBlur = 2;
+      context.lineJoin = context.lineCap = "round";
+      context.beginPath();
         context.moveTo(user.xArray[user.xArray.length -2],user.yArray[user.yArray.length -2]);
         context.lineTo(user.xArray[user.xArray.length-1],user.yArray[user.yArray.length-1]);
         context.stroke();
