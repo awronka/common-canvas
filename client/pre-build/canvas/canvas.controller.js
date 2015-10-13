@@ -189,7 +189,7 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
   
   //save image 
   $scope.saveCanvas = function(){
-    var imagetoSave = canvas.toDataUrl();
+    var imagetoSave = canvas.toDataURL();
     var saveObject = {}
     saveObject.room = $stateParams.room;
     saveObject.image = imagetoSave;
