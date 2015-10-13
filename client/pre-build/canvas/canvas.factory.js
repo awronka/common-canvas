@@ -49,12 +49,50 @@ app.factory('CanvasFactory', function() {
             if (!data) return;
             var image = new Image();
             image.src = data;
-            console.log("the image width is: ", image.width);
-            console.log("the image height is: ", image.height);
+            // console.log("the image width is: ", image.width);
+            // console.log("the image height is: ", image.height);
             image.onload = function() {
                 //context.drawImage(image, 0, 0, image.width, image.height);
                 context.drawImage(image,0,0,image.width/PIXEL_RATIO,image.height/PIXEL_RATIO);
             };
+        },
+        drawLineData: function(data, usersObject2, context, mouseLogic){
+                var user2;
+                if (usersObject2[data.userID]) {
+                context.strokeStyle = data.color;
+                context.shadowColor = data.color;
+                context.lineWidth = data.lineWidth;
+                context.shadowBlur = 2;
+                context.lineJoin = context.lineCap = "round";
+                context.beginPath();
+                user2 = usersObject2[data.userID];
+                user2.xArray.push(data.x);
+                user2.yArray.push(data.y);
+                if (user2.xArray.length > 1) {
+                    context.moveTo(user2.xArray[user2.xArray.length -2],user2.yArray[user2.yArray.length -2]);
+                    context.lineTo(user2.xArray[user2.xArray.length-1],user2.yArray[user2.yArray.length-1]);
+
+                    context.stroke();
+
+                } else {
+                    context.moveTo(data.x,data.y);
+                    context.lineTo(data.x+0.5, data.y+0.5);
+
+                    context.stroke();
+
+                }
+                } else {
+                usersObject2[data.userID] = {xArray: [], yArray:[]};
+                user2 = usersObject2[data.userID];
+                user2.xArray.push(data.x);
+                user2.yArray.push(data.y);
+                context.moveTo(data.x,data.y);
+
+                context.lineTo(data.x+0.5, data.y+0.5);
+
+                context.stroke();
+                }
+            
         }
     };
 });

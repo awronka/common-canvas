@@ -11,7 +11,7 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
   var usersObject = {};
   
   $scope.userID = UserId;
-  console.log("my user id is: ", $scope.userID);
+  // console.log("my user id is: ", $scope.userID);
   usersObject[$scope.userID] = {xArray: [], yArray:[]};
   // gets the room
   function activate(){
@@ -42,21 +42,6 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
   };
 
 
-  // Here we send out an http request as soon as the page loads
-  // We are returned a unique user number.
-  
-  //   $http({
-  //   method: 'GET',
-  //   url: 'api/modules'
-  // }).then(function successCallback(response) {
-  //   $scope.userID = response.data.userID;
-  //   usersObject[$scope.userID] = {xArray: [], yArray:[]};
-  //   socket.emit('join room', {room: $stateParams.room});
-  // }, function errorCallback(response) {
-  //   // called asynchronously if an error occurs
-  //   // or server returns response with an error status.
-  // });
-
   // Detect mousedown
   canvas.addEventListener("mousedown", function(evt) {
     mouseDown = true;
@@ -64,7 +49,6 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
     context.strokeStyle = $scope.brushColor;
     context.shadowColor = $scope.brushColor;
     context.lineWidth = ($scope.brushSize/2)+1;
-
     context.moveTo(evt.layerX,evt.layerY);
     context.lineTo(evt.layerX+0.5, evt.layerY+0.5);
     context.stroke();
@@ -159,45 +143,17 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
       room: $stateParams.room
     });
   });
-
+  
+  //added a second user object in an attempt to debug the color/brush size error.
+   var usersObject2 = {};
   socket.on('newLine', function(data) {
-    context.strokeStyle = data.color;
-    context.shadowColor = data.color;
-    context.lineWidth = data.lineWidth;
-    context.shadowBlur = 2;
-    context.lineJoin = context.lineCap = "round";
-    context.beginPath();
-    console.log("the other userID is: ", data.userID);
-    var user;
-    if (usersObject[data.userID]) {
-      user = usersObject[data.userID];
-      console.log("user is: ", user);
-      user.xArray.push(data.x);
-      user.yArray.push(data.y);
-      if (user.xArray.length > 1) {
-        context.moveTo(user.xArray[user.xArray.length -2],user.yArray[user.yArray.length -2]);
-        context.lineTo(user.xArray[user.xArray.length-1],user.yArray[user.yArray.length-1]);
-        context.stroke();
-      } else {
-        context.moveTo(data.x,data.y);
-        context.lineTo(data.x+0.5, data.y+0.5);
-        //context.stroke();
-      }
-    } else {
-      usersObject[data.userID] = {xArray: [], yArray:[]};
-      user = usersObject[data.userID];
-      user.xArray.push(data.x);
-      user.yArray.push(data.y);
-      context.moveTo(data.x,data.y);
-      context.lineTo(data.x+0.5, data.y+0.5);
-      //context.stroke();
-    }
+    CanvasFactory.drawLineData(data, usersObject2, context, mouseDown);
   });
 
   socket.on('endLine', function(data) {
     console.log("recieiving end line");
-    if (usersObject[data.userID]) {
-      usersObject[data.userID] = {xArray: [], yArray:[]};
+    if (usersObject2[data.userID]) {
+      usersObject2[data.userID] = {xArray: [], yArray:[]};
     }
   });
 
@@ -230,5 +186,17 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
     console.log("the image to start is running");
     CanvasFactory.drawCanvasOffSentImage(context, canvas, data.image)
   });
+  
+  //save image 
+  $scope.saveCanvas = function(){
+    var imagetoSave = canvas.toDataURL();
+    var saveObject = {}
+    saveObject.room = $stateParams.room;
+    saveObject.image = imagetoSave;
+    $http.post('api/modules', saveObject).then(function (res) {
+			console.log(res.data)
+			return res.data;
+		});
+  }
 
 });

@@ -84,6 +84,7 @@ io.on('connection', function(socket){
   // Recieve notification of drawn line
   socket.on('draw', function(data) {
     console.log("room in draw is: ", data.room);
+    //socket.to(data.room).broadcast.emit('newLine', data);
     socket.to(data.room).broadcast.emit('newLine', data);
   });
 
