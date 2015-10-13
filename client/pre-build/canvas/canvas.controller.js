@@ -14,7 +14,13 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
   usersObject[$scope.userID] = {xArray: [], yArray:[]};
   // gets the room
   function activate(){
-  socket.emit('join room', {room: $stateParams.room});
+    if ($stateParams.room) {
+      socket.emit('join room', {room: $stateParams.room});
+    } else {
+      console.log("in else statment");
+      $stateParams.room = "general/general";
+      socket.emit('join room', {room: $stateParams.room});
+    }
   }
   activate();
 
