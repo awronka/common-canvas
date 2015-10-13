@@ -161,7 +161,6 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
   });
 
   socket.on('newLine', function(data) {
-    console.log("in newLine");
     context.strokeStyle = data.color;
     context.shadowColor = data.color;
     context.lineWidth = data.lineWidth;
@@ -172,6 +171,7 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
     var user;
     if (usersObject[data.userID]) {
       user = usersObject[data.userID];
+      console.log("user is: ", user);
       user.xArray.push(data.x);
       user.yArray.push(data.y);
       if (user.xArray.length > 1) {
@@ -179,8 +179,8 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
         context.lineTo(user.xArray[user.xArray.length-1],user.yArray[user.yArray.length-1]);
         context.stroke();
       } else {
-        //context.moveTo(data.x,data.y);
-        //context.lineTo(data.x+0.5, data.y+0.5);
+        context.moveTo(data.x,data.y);
+        context.lineTo(data.x+0.5, data.y+0.5);
         //context.stroke();
       }
     } else {
@@ -190,7 +190,7 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
       user.yArray.push(data.y);
       context.moveTo(data.x,data.y);
       context.lineTo(data.x+0.5, data.y+0.5);
-      context.stroke();
+      //context.stroke();
     }
   });
 
