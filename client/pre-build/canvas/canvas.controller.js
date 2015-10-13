@@ -11,7 +11,6 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
   var usersObject = {};
   
   $scope.userID = UserId;
-  // console.log("my user id is: ", $scope.userID);
   usersObject[$scope.userID] = {xArray: [], yArray:[]};
   // gets the room
   function activate(){
@@ -23,9 +22,6 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
   context.lineWidth = ($scope.brushSize/2)+1;
   context.shadowBlur = 2;
   context.lineJoin = context.lineCap = "round";
-
-  console.log("stateParams are: ",$stateParams);
-
 
   //get a room via the form
   $scope.roomName = null;
@@ -45,10 +41,10 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
   // Detect mousedown
   canvas.addEventListener("mousedown", function(evt) {
     mouseDown = true;
-    context.beginPath();
     context.strokeStyle = $scope.brushColor;
     context.shadowColor = $scope.brushColor;
     context.lineWidth = ($scope.brushSize/2)+1;
+    context.beginPath();
     context.moveTo(evt.layerX,evt.layerY);
     context.lineTo(evt.layerX+0.5, evt.layerY+0.5);
     context.stroke();
@@ -83,6 +79,7 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
       user.xArray.push(evt.layerX+1);
       user.yArray.push(evt.layerY+1);
       if (user.xArray.length > 1) {
+        context.beginPath();
         context.moveTo(user.xArray[user.xArray.length -2],user.yArray[user.yArray.length -2]);
         context.lineTo(user.xArray[user.xArray.length-1],user.yArray[user.yArray.length-1]);
         context.stroke();
@@ -101,7 +98,6 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
   }, false);
 
   canvas.addEventListener("touchstart", function(evt) {
-    context.beginPath();
     context.strokeStyle = $scope.brushColor;
     context.shadowColor = $scope.brushColor;
     context.lineWidth = ($scope.brushSize/2)+1;
@@ -109,6 +105,7 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
     user.xArray.push(evt.changedTouches[0].pageX);
     user.yArray.push(evt.changedTouches[0].pageY);
 
+    context.beginPath();
     context.moveTo(evt.changedTouches[0].pageX,evt.changedTouches[0].pageY);
     context.lineTo(evt.changedTouches[0].pageX+0.5, evt.changedTouches[0].pageY+0.5);
     context.stroke();
@@ -129,6 +126,7 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
     user.xArray.push(evt.changedTouches[0].pageX);
     user.yArray.push(evt.changedTouches[0].pageY);
     if (user.xArray.length > 1) {
+      context.beginPath();
       context.moveTo(user.xArray[user.xArray.length -2],user.yArray[user.yArray.length -2]);
       context.lineTo(user.xArray[user.xArray.length-1],user.yArray[user.yArray.length-1]);
       context.stroke();
@@ -190,11 +188,11 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
   //save image 
   $scope.saveCanvas = function(){
     var imagetoSave = canvas.toDataURL();
-    var saveObject = {}
+    var saveObject = {};
     saveObject.room = $stateParams.room;
     saveObject.image = imagetoSave;
     $http.post('api/modules', saveObject).then(function (res) {
-			console.log(res.data)
+			console.log(res.data);
 			return res.data;
 		});
   }
