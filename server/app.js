@@ -107,6 +107,13 @@ io.on('connection', function(socket){
     socket.to(data.room).broadcast.emit('get the current image', data);
   });
 
+  socket.on('image to save', function(data){
+    console.log(data.image.slice(0,50))
+    fs.writeFile("./server/images/"+data.room+"Image.png", data.image,'base64', function (err) {
+        if (err) return console.log(err);
+        console.log('image saved!');
+      })
+  });
 
 });
 
