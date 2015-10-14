@@ -1,3 +1,19 @@
 .library-box{
-	
+	width: 100vh;
+	height: 100vh;
+	.library-list-box{
+		display: flex;
+		flex-direction: row;
+		.library-list{
+			width: 200px;
+			height: 200px;
+			float: left;
+			border: 1px solid black;
+			border-radius: 2px;
+			padding: 1%;
+			img{
+				max-width: 100%;
+			}
+		}
+	}
 }
