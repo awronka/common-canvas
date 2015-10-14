@@ -197,7 +197,7 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
     imagetoSave = imagetoSave.replace("data:image/png;base64,", "");
     var saveObject = {};
     saveObject.room = $stateParams.room;
-    saveObject.imageUrl = "./images/"+$stateParams.room;
+    saveObject.imageUrl = "./server/images/"+$stateParams.room+"Image.png";
     socket.emit("image to save", {image: imagetoSave, room: $stateParams.room});
     $http.post('api/modules/images', saveObject).then(function (res) {
 			console.log(res.data);
