@@ -7,6 +7,15 @@ var logger = require('morgan');
 var chalk = require('chalk');
 var bodyParser = require('body-parser');
 var fs = require('fs');
+var keys = require('./development.js');
+
+// aws service let's see how the fuck this works
+var AWS = require('aws-sdk');
+AWS.config.region = 'us-west-2';
+var credentials = new AWS.SharedIniFileCredentials({profile: 'alexius'});
+AWS.config.credentials = {AWS_ACCESS_KEY_ID: keys.AWS.clientID, AWS_SECRET_ACCESS_KEY: keys.AWS.clientSecret};
+var s3bucket = new AWS.S3({params: {Bucket: keys.AWS.bucketName}});
+
 
 var clientPath = path.join(__dirname, '../client');
 var buildPath = path.join(__dirname, '../client/build');
@@ -15,6 +24,7 @@ var indexHtmlPath = path.join(__dirname, './index.html');
 var nodePath = path.join(__dirname, '../node_modules');
 var bowerPath = path.join(__dirname, '../bower_components');
 var imagePath = path.join(__dirname, './images');
+
 /* 
 Meaniscule doesn't use Bower by default. To use Bower,
 uncomment the following line and the related `app.use` line below.
@@ -108,11 +118,22 @@ io.on('connection', function(socket){
   });
 
   socket.on('image to save', function(data){
-    console.log(data.image.slice(0,50))
-    fs.writeFile("./server/images/"+data.room+ data.num+ "Image.png", data.image,'base64', function (err) {
-        if (err) return console.log(err);
-        console.log('image saved!');
-      })
+    console.log(keys.AWS.bucketName)
+    s3bucket.createBucket(function() {
+        var params = {Key: keys.AWS.clientSecret, Body: 'Hello!'};
+              s3bucket.upload(params, function(err, data) {
+                  if (err) {
+                    console.log("Error uploading data: ", err);
+                  } else {
+                    console.log("Successfully uploaded data to myBucket/myKey");
+                  }
+         });
+    });
+    
+    // fs.writeFile("./server/images/"+data.room+ data.num+ "Image.png", data.image,'base64', function (err) {
+    //     if (err) return console.log(err);
+    //     console.log('image saved!');
+    //   })
   });
 
 });
