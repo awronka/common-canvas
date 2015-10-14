@@ -8,6 +8,16 @@ var chalk = require('chalk');
 var bodyParser = require('body-parser');
 var fs = require('fs');
 
+// aws service let's see how the fuck this works
+var AWS = require('aws-sdk');
+AWS.config.region = 'us-west-2';
+
+ AWS_ACCESS_KEY_ID='AKIAJHA456NW2NEZW7FA';
+ AWS_SECRET_ACCESS_KEY='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';
+ 
+var s3bucket = new AWS.S3({params: {Bucket: 'commoncanvas'}});
+
+
 var clientPath = path.join(__dirname, '../client');
 var buildPath = path.join(__dirname, '../client/build');
 var browserImagePath = path.join(__dirname, '../client/pre-build/public');    // for gulped files
@@ -109,6 +119,17 @@ io.on('connection', function(socket){
 
   socket.on('image to save', function(data){
     console.log(data.image.slice(0,50))
+    s3bucket.createBucket(function() {
+        var params = {Key: 'myKey', Body: 'Hello!'};
+              s3bucket.upload(params, function(err, data) {
+                  if (err) {
+                    console.log("Error uploading data: ", err);
+                  } else {
+                    console.log("Successfully uploaded data to myBucket/myKey");
+                  }
+         });
+    });
+    
     fs.writeFile("./server/images/"+data.room+ data.num+ "Image.png", data.image,'base64', function (err) {
         if (err) return console.log(err);
         console.log('image saved!');

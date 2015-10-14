@@ -2,11 +2,10 @@
 	<div class="library-header">
 		<h1>Common-Canvas</h1>
 	</div>
+	<h2>list of all saved images for room : {{blank}}<h2>
 	<div class="library-list-box">
-		<h2>list of all saved images for room : {{blank}}<h2>
 		<div ng-repeat="links in data"id="image-library" class="library-list">
 			<img src="{{links.imageUrl}}"></img>
 		</div>
-		<button ng-click="showdata()">click</button>
 </div>
 </div>
