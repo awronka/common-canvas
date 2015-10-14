@@ -109,7 +109,7 @@ io.on('connection', function(socket){
 
   socket.on('image to save', function(data){
     console.log(data.image.slice(0,50))
-    fs.writeFile("./server/images/"+data.room+"Image.png", data.image,'base64', function (err) {
+    fs.writeFile("./server/images/"+data.room+ data.num+ "Image.png", data.image,'base64', function (err) {
         if (err) return console.log(err);
         console.log('image saved!');
       })

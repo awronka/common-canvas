@@ -196,9 +196,11 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
     var imagetoSave = canvas.toDataURL("image/png");
     imagetoSave = imagetoSave.replace("data:image/png;base64,", "");
     var saveObject = {};
+    var imageNum = Math.floor(Math.random()*100)
+    console.log(imageNum)
     saveObject.room = $stateParams.room;
-    saveObject.imageUrl = "./server/images/"+$stateParams.room+"Image.png";
-    socket.emit("image to save", {image: imagetoSave, room: $stateParams.room});
+    saveObject.imageUrl = "/"+$stateParams.room+ imageNum + "Image.png";
+    socket.emit("image to save", {image: imagetoSave, room: $stateParams.room, num:imageNum});
     $http.post('api/modules/images', saveObject).then(function (res) {
 			console.log(res.data);
 			return res.data;
