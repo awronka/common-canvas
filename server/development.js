@@ -8,5 +8,9 @@
 module.exports = {
     // "DATABASE_URI": process.env.MONGOLAB_URI,
     // "SESSION_SECRET": process.env.SESSION_SECRET,
-
+    "AWS": {
+        "clientID": 'AKIAJHA456NW2NEZW7FA',
+        "clientSecret": "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",
+        "bucketName": "commoncanvas"
+    }
 };
