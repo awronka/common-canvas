@@ -33,6 +33,7 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
   $scope.goToRoom = function(room){
     socket.emit('leave room', {room: $stateParams.room});
     $stateParams.room = room;
+    CanvasFactory.clear(context,canvas);
     $state.go('canvas', $stateParams,{ reload: true });
   };
 
