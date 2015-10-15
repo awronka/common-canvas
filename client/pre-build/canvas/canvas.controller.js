@@ -1,5 +1,5 @@
 
-app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $state, socket, UserId, $http, $stateParams) {
+app.controller('CanvasController', function($scope, browser, $rootScope, CanvasFactory, $state, socket, UserId, $http, $stateParams) {
   var canvasWindow = document.getElementById("canvas-window");
   var canvas = CanvasFactory.generateCanvas(canvasWindow.clientWidth,canvasWindow.clientHeight);
   var context = canvas.getContext("2d");
@@ -9,6 +9,7 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
   $scope.showOptions = false;
   $scope.userID = 0;
   var usersObject = {};
+  $scope.colorPickerSub = false;
   
   $scope.userID = UserId;
   usersObject[$scope.userID] = {xArray: [], yArray:[]};
@@ -40,8 +41,21 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
   // HANDLE THE BRUSH CIRCLE
   $scope.openColorPicker = function() {
     var picker = document.getElementById("color-picker-element");
-    picker.click();
+    var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    if(iOS || browser()=="safari"){
+      $scope.colorPickerSub = true;
+    }
+    else{
+        picker.click();
+    }
   };
+  
+  //get color if there's no color picker
+  $rootScope.$on("get color", function(evt, data){
+    console.log(data)
+    $scope.brushColor = data.newColor;
+    $scope.colorPickerSub = false;
+  })
 
 
   // Detect mousedown

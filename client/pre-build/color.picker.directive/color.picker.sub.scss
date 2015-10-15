@@ -1,0 +1,97 @@
+.picker-box {
+width: 40%;
+height: 40%;
+position: absolute;
+margin-left: auto;
+margin-right: auto;
+margin-top: 25%;
+top: 25;
+left: 0;
+right: 0;
+background-color: grey;
+border-radius: 10px;
+z-index:    2;
+display: flex;
+flex-direction: column;
+align-content: center;
+	.select-text{
+		text-align: center;
+		height: 10%;
+		width: 100%;
+		font-family: 'Slackey', cursive;
+		padding-top: 2%;
+	}
+	.color-box{
+		width: 100%;
+		height: 90%;
+		display: flex;
+		flex-direction: column;
+		flex-wrap: wrap;
+		align-content: center;
+		float: left;
+		background-color: lightgrey;
+		border-bottom-left-radius: 10px;
+		border-bottom-right-radius: 10px;
+		padding-top: 1%;
+		padding-left: 1%;
+		padding-right: 1%;
+		padding-bottom: 1%;
+		.color-selector{
+			float: left;
+			margin: 1%;
+			width: 20%;
+			height: 20%;
+			border-radius: 5px;
+			box-shadow: 2px 2px 2px #888888;
+		}
+		.white{
+			background-color: white;
+		}
+		.blue{
+			background-color: blue;
+		}
+		.purple{
+			background-color: purple;
+		}
+		.red{
+			background-color: red;
+		}
+		.orange{
+			background-color: orange;
+		}
+		.yellow{
+			background-color: yellow;
+		}
+		.green{
+			background-color: green;
+		}
+		.lightcoral{
+			background-color: lightcoral;
+		}
+		.lightblue{
+			background-color: lightblue;
+		}
+		.pink{
+			background-color: pink;
+		}
+		.lightgreen{
+			background-color: lightgreen;
+		}
+		.darkgreen{
+			background-color: darkgreen;
+		}
+		.darkblue{
+			background-color: darkblue;
+		}
+		.darkred{
+			background-color: darkred;
+		}
+		.darkgrey{
+			background-color: darkgrey;
+		}
+		.black{
+			background-color: black;
+		}
+		
+	}
+}
