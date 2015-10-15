@@ -206,5 +206,11 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
 			return res.data;
 		});
   }
+  
+  // //allow tool bar to fade in 
+  $scope.toolBarLogic = false;
+  $rootScope.$on("tool bar show", function(evt, data){
+    $scope.toolBarLogic = data.logic;
+  })
 
 });

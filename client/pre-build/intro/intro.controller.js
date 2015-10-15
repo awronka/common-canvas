@@ -1,4 +1,4 @@
-app.controller('IntroCtrl', function($scope, $timeout, IntroLogic, $stateParams){
+app.controller('IntroCtrl', function($scope, $timeout, IntroLogic, $stateParams, $rootScope){
 	$scope.introOver = true;
 	$scope.titleShow = false;
 	$scope.subTitleShow = false;
@@ -55,5 +55,6 @@ app.controller('IntroCtrl', function($scope, $timeout, IntroLogic, $stateParams)
 	 $scope.hide = function(){
 		 $scope.introOver = !($scope.introOver)
 		 IntroLogic.setIntroLogic(true);
+		 $rootScope.$broadcast("tool bar show", {logic: true})
 	 }
 });
