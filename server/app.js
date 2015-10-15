@@ -109,26 +109,34 @@ io.on('connection', function(socket){
   });
   
   socket.on('current image to new user', function(data){
-    socket.to(data.room).broadcast.emit('image to start', data);
+    console.log("we are emitting the image to user: ", data.user, "from user: ", data.provider);
+    socket.to(data.user).broadcast.emit('image to start', data);
   });
 
   socket.on('join room', function(data){
+    console.log("we are recieving a request to join room: ", data.room, "from user: ", data.user);
     socket.join(data.room);
+    socket.join(data.user);
     socket.to(data.room).broadcast.emit('get the current image', data);
   });
 
+  socket.on('leave room', function(data){
+    console.log("someone is leaving room", data.room);
+    socket.leave(data.room);
+  });
+
   socket.on('image to save', function(data){
-    // console.log(keys.AWS.bucketName)
-    // s3bucket.createBucket(function() {
-    //     var params = {Key: keys.AWS.clientSecret, Body: 'Hello!'};
-    //           s3bucket.upload(params, function(err, data) {
-    //               if (err) {
-    //                 console.log("Error uploading data: ", err);
-    //               } else {
-    //                 console.log("Successfully uploaded data to myBucket/myKey");
-    //               }
-    //      });
-    // });
+    console.log(keys.AWS.bucketName);
+    s3bucket.createBucket(function() {
+        var params = {Key: keys.AWS.clientSecret, Body: 'Hello!'};
+              s3bucket.upload(params, function(err, data) {
+                  if (err) {
+                    console.log("Error uploading data: ", err);
+                  } else {
+                    console.log("Successfully uploaded data to myBucket/myKey");
+                  }
+         });
+    });
     
     // fs.writeFile("./server/images/"+data.room+ data.num+ "Image.png", data.image,'base64', function (err) {
     //     if (err) return console.log(err);
