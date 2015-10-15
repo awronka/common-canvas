@@ -7,14 +7,14 @@ var logger = require('morgan');
 var chalk = require('chalk');
 var bodyParser = require('body-parser');
 var fs = require('fs');
-var keys = require('./development.js');
+// var keys = require('./development.js');
 
 // aws service let's see how the fuck this works
-var AWS = require('aws-sdk');
-AWS.config.region = 'us-west-2';
-var credentials = new AWS.SharedIniFileCredentials({profile: 'alexius'});
-AWS.config.credentials = {AWS_ACCESS_KEY_ID: keys.AWS.clientID, AWS_SECRET_ACCESS_KEY: keys.AWS.clientSecret};
-var s3bucket = new AWS.S3({params: {Bucket: keys.AWS.bucketName}});
+// var AWS = require('aws-sdk');
+// AWS.config.region = 'us-west-2';
+// var credentials = new AWS.SharedIniFileCredentials({profile: 'alexius'});
+// AWS.config.credentials = {AWS_ACCESS_KEY_ID: keys.AWS.clientID, AWS_SECRET_ACCESS_KEY: keys.AWS.clientSecret};
+// var s3bucket = new AWS.S3({params: {Bucket: keys.AWS.bucketName}});
 
 
 var clientPath = path.join(__dirname, '../client');
@@ -118,17 +118,17 @@ io.on('connection', function(socket){
   });
 
   socket.on('image to save', function(data){
-    console.log(keys.AWS.bucketName)
-    s3bucket.createBucket(function() {
-        var params = {Key: keys.AWS.clientSecret, Body: 'Hello!'};
-              s3bucket.upload(params, function(err, data) {
-                  if (err) {
-                    console.log("Error uploading data: ", err);
-                  } else {
-                    console.log("Successfully uploaded data to myBucket/myKey");
-                  }
-         });
-    });
+    // console.log(keys.AWS.bucketName)
+    // s3bucket.createBucket(function() {
+    //     var params = {Key: keys.AWS.clientSecret, Body: 'Hello!'};
+    //           s3bucket.upload(params, function(err, data) {
+    //               if (err) {
+    //                 console.log("Error uploading data: ", err);
+    //               } else {
+    //                 console.log("Successfully uploaded data to myBucket/myKey");
+    //               }
+    //      });
+    // });
     
     // fs.writeFile("./server/images/"+data.room+ data.num+ "Image.png", data.image,'base64', function (err) {
     //     if (err) return console.log(err);
