@@ -15,11 +15,10 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
   // gets the room
   function activate(){
     if ($stateParams.room) {
-      socket.emit('join room', {room: $stateParams.room});
+      socket.emit('join room', {room: $stateParams.room, user:$scope.userID});
     } else {
-      console.log("in else statment");
       $stateParams.room = "general/general";
-      socket.emit('join room', {room: $stateParams.room});
+      socket.emit('join room', {room: $stateParams.room, user:$scope.userID});
     }
   }
   activate();
@@ -32,8 +31,9 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
   //get a room via the form
   $scope.roomName = null;
   $scope.goToRoom = function(room){
+    socket.emit('leave room', {room: $stateParams.room});
+    socket.disconnect();
     $stateParams.room = room;
-    console.log($stateParams);
     $state.go('canvas', $stateParams,{ reload: true });
   };
 
@@ -175,14 +175,17 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
   
   //clears on other users end
   socket.on('clear canvas', function(){
-    console.log("we are recieving the message on this end")
+    console.log("we are recieving the message on this end");
     CanvasFactory.clear(context,canvas);
   });
   
   //sends the current image to new users
   socket.on('get the current image', function(data){
-      var imageForEmit = canvas.toDataURL();
-      socket.emit('current image to new user', {image: imageForEmit, room:$stateParams.room})
+    console.log("we have recieved a get image request");
+    console.log("the room is: ", $stateParams.room);
+    console.log("the user is: ", data.user);
+    var imageForEmit = canvas.toDataURL();
+    socket.emit('current image to new user', {image: imageForEmit, room:$stateParams.room, user:data.user, provider: $scope.userID})
   });
   
   // renders the new image
@@ -197,7 +200,7 @@ app.controller('CanvasController', function($scope, $rootScope, CanvasFactory, $
     imagetoSave = imagetoSave.replace("data:image/png;base64,", "");
     var saveObject = {};
     var imageNum = Math.floor(Math.random()*100)
-    console.log(imageNum)
+    console.log(imageNum);
     saveObject.room = $stateParams.room;
     saveObject.imageUrl = "/"+$stateParams.room+ imageNum + "Image.png";
     socket.emit("image to save", {image: imagetoSave, room: $stateParams.room, num:imageNum});
