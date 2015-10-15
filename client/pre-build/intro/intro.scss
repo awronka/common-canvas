@@ -47,10 +47,24 @@
                         font-size: 500%;
                         text-shadow: 2px 2px darkblue;
                         font-weight: bold;
+                        position: absolute;
+                        margin-left: auto;
+                        margin-right: auto;
+                        left: 0;
+                        right: 0;
+                    
                       }
                     }
                     .sub-title-box{
-                      height: 150px;
+                      height: 100px;
+                      text-align: center;
+                      .sub-title{
+                        position: absolute;
+                        margin-left: auto;
+                        margin-right: auto;
+                        left: 0;
+                        right: 0;
+                        }
                     }
           }
           @media(max-width: 600px){
@@ -83,6 +97,7 @@
 .animate-if.ng-enter,
 .animate-if.ng-leave.ng-leave-active {
   opacity:0;
+  
 }
 
 .animate-if.ng-leave,
