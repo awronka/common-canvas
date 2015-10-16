@@ -4,7 +4,7 @@
  flex-direction: column;
  align-content: center;
 
-@media (min-width: 600px) {
+@media (min-width: 801px) {
   .canvas-attr{
     height: 100vh;
     width: 100vw;
@@ -21,7 +21,7 @@
   } 
 }
 
-@media (max-width: 600px) {
+@media (max-width: 800px) {
   .canvas-attr{
     margin: auto;
     height: 100vh;
