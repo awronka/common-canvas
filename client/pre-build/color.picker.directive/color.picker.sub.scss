@@ -1,6 +1,6 @@
 .picker-box {
 width: 40%;
-height: 40%;
+height: 35%;
 position: absolute;
 margin-left: auto;
 margin-right: auto;
@@ -9,37 +9,40 @@ top: 25;
 left: 0;
 right: 0;
 background-color: grey;
+color: black;
 border-radius: 10px;
 z-index:    2;
 display: flex;
 flex-direction: column;
 align-content: center;
 	.select-text{
+		font-size: 100%;
 		text-align: center;
 		height: 10%;
 		width: 100%;
 		font-family: 'Slackey', cursive;
 		padding-top: 2%;
+		text-shadow: .5px .5px white;
 	}
 	.color-box{
 		width: 100%;
-		height: 90%;
+		height: 100%;
 		display: flex;
 		flex-direction: column;
 		flex-wrap: wrap;
-		align-content: center;
+		align-content: stretch;
 		float: left;
 		background-color: lightgrey;
 		border-bottom-left-radius: 10px;
 		border-bottom-right-radius: 10px;
 		padding-top: 1%;
-		padding-left: 1%;
-		padding-right: 1%;
+		padding-left: auto;
+		padding-right: auto;
 		padding-bottom: 1%;
 		.color-selector{
 			float: left;
 			margin: 1%;
-			width: 20%;
+			width: 22%;
 			height: 20%;
 			border-radius: 5px;
 			box-shadow: 2px 2px 2px #888888;
