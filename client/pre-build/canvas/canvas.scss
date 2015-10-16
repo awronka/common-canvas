@@ -195,3 +195,18 @@
   right: -50px;
   top: 50px;
 }
+
+.animate-show {
+
+  opacity: 1;
+
+}
+
+.animate-show.ng-hide-add, .animate-show.ng-hide-remove {
+  transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 2s;
+}
+
+.animate-show.ng-hide {
+
+  opacity: 0;
+}
