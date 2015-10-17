@@ -7,15 +7,22 @@ var logger = require('morgan');
 var chalk = require('chalk');
 var bodyParser = require('body-parser');
 var fs = require('fs');
-// var keys = require('./development.js');
+
 
 // aws service let's see how the fuck this works
-// var AWS = require('aws-sdk');
-// AWS.config.region = 'us-west-2';
-// var credentials = new AWS.SharedIniFileCredentials({profile: 'alexius'});
-// AWS.config.credentials = {AWS_ACCESS_KEY_ID: keys.AWS.clientID, AWS_SECRET_ACCESS_KEY: keys.AWS.clientSecret};
-// var s3bucket = new AWS.S3({params: {Bucket: keys.AWS.bucketName}});
+var AWS = require('aws-sdk');
+var keys = require('./development.js');
+var shortId = require('shortid');
 
+var bucketName = keys.AWS.bucketName;
+// AWS.config.region = 'us-west-2';
+
+AWS.config.update({
+        accessKeyId: keys.AWS.clientID,
+        secretAccessKey: keys.AWS.clientSecret
+    });
+    
+var s3 = new AWS.S3();
 
 var clientPath = path.join(__dirname, '../client');
 var buildPath = path.join(__dirname, '../client/build');
@@ -31,9 +38,17 @@ uncomment the following line and the related `app.use` line below.
 */
 // var bowerPath = path.join(__dirname, '../bower_components');
 
+//set up cors
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser({limit: '50mb'}));
 
 app.use(express.static(clientPath));
 app.use(express.static(buildPath));
@@ -127,15 +142,32 @@ io.on('connection', function(socket){
 
   socket.on('image to save', function(data){
     console.log(keys.AWS.bucketName);
-    s3bucket.createBucket(function() {
-        var params = {Key: keys.AWS.clientSecret, Body: 'Hello!'};
-              s3bucket.upload(params, function(err, data) {
-                  if (err) {
-                    console.log("Error uploading data: ", err);
-                  } else {
-                    console.log("Successfully uploaded data to myBucket/myKey");
-                  }
-         });
+    var parsedPhoto = data.image.match(/^(?:data:image\/)(\w{3,4})(?:;base64,)(.+)/).slice(1),
+        base64Data = parsedPhoto[1],
+        photoFileExt = '.' + parsedPhoto[0],
+        photoBuffer = new Buffer(base64Data, 'base64'); // buffer-fied photo
+    // req.body.photo = 'https://s3.amazonaws.com/' + bucketName + '/' + keyName;
+    var keyName = "" + data.room +data.num + photoFileExt;
+    console.log(data.room)
+    var params = {
+        Bucket: bucketName,
+        Key: keyName,
+        Body: photoBuffer
+    };
+
+    s3.putObject(params, function(err, data) {
+      // console.log("Did it get into s3?")
+        if (err) console.log(err);
+        else {
+            console.log("Successfully uploaded data to " + bucketName + "/" + params.Key);
+            // Image.create(req.body, function(err, obj) {
+            //     if (err) {
+            //         console.log("Mongo error!");
+            //         return handleError(err);
+            //     }
+            //     else res.json(obj);
+            // });
+        }
     });
     
     // fs.writeFile("./server/images/"+data.room+ data.num+ "Image.png", data.image,'base64', function (err) {

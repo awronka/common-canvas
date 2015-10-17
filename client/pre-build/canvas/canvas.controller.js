@@ -210,8 +210,7 @@ app.controller('CanvasController', function($scope, browser, $rootScope, CanvasF
   
   //save image 
   $scope.saveCanvas = function(){
-    var imagetoSave = canvas.toDataURL("image/png");
-    imagetoSave = imagetoSave.replace("data:image/png;base64,", "");
+    var imagetoSave = canvas.toDataURL();
     var saveObject = {};
     var imageNum = Math.floor(Math.random()*100)
     console.log(imageNum);

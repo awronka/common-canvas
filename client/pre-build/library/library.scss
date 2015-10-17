@@ -1,25 +1,58 @@
 .library-box{
-	width: 100vw;
+	width: 100%;
 	height: 100vh;
+	text-align: center;
+	font-family: 'Slackey', cursive;
 	.library-list-box{
 		width: 100%;
+		padding-left: 10%;
+		padding-right: 0%;
 		display: flex;
 		// flex-direction: column;
 		flex-wrap: wrap;
 		align-content: center;
 		.library-list{
-			width: 200px;
+			width: 15%;
 			height: 100px;
 			float: left;
-			border: 1px solid lightblue;
+			
 			border-radius: 5px;
 			margin: 1%;
 			overflow: hidden;
-			box-shadow: 2px 2px 2px #888888;
+			position: relative; 
+		
+			.num{
+				position: absolute;
+				z-index: 2;
+				left: 0; 
+			}
 			img{
 				max-width: 100%;
-				
+				box-shadow: 2px 2px 2px #888888;
+				border: 1px solid lightblue;
 			}
 		}
 	}
+	
+	.animate-show {
+  position: relative;
+    top: 0px;
+  opacity: 1;
+
+}
+
+.animate-show.ng-hide-add, .animate-show.ng-hide-remove {
+     -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+    -moz-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+    -o-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+    transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+}
+
+.animate-show.ng-hide {
+
+  opacity: 0;
+   position: absolute;
+    top: 100px;
+}
+
 }

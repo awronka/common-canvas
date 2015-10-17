@@ -4,8 +4,14 @@
 	</div>
 	<h2>list of all saved images for room : {{blank}}<h2>
 	<div class="library-list-box">
-		<div ng-repeat="links in data"id="image-library" class="library-list">
-			<img src="{{links.imageUrl}}"></img>
+		<div ng-repeat="links in images"id="image-library" class="library-list">
+			<div ng-show="imageLogic[$index]" class="animate-show" >
+			<img src="{{links.imageUrl}}"></img><span class="num">{{$index}}</span></div>
 		</div>
+		<div id="image-library" class="library-list">
+			<img src="	
+https://s3-us-west-2.amazonaws.com/commoncanvas/general/general69.png"></img>
+		</div>
+		<button ng-click="getInfo()">click</button>
 </div>
 </div>
